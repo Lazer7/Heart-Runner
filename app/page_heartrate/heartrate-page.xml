@@ -1,0 +1,10 @@
+<Page class="page" navigatingTo="onNavigatingTo" 
+    xmlns="http://schemas.nativescript.org/tns.xsd">
+    <GridLayout>
+        <Label text="{{ heartrate.UUID }}" textWrap="true" class="uuid" />
+        <Label text="{{ heartrate.HeartRate }}" textWrap="true" class="heartrate" />
+        <Label text="{{ heartrate.Signal }}" textWrap="true" class="signal" />
+        <Label text="{{ heartrate.Other }}" textWrap="true" class="other" />
+
+    </GridLayout>
+</Page>

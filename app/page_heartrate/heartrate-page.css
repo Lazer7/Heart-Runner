@@ -1,0 +1,19 @@
+.uuid {
+    color: #000000;
+    font-size: 20;
+}
+.heartrate {
+    color: #000000;
+    font-size: 20;
+    margin-top: 75px;
+}
+.signal {
+    color: #000000;
+    font-size: 20;
+    margin-top: 150px;
+}
+.other {
+    color: #000000;
+    font-size: 20;
+    margin-top: 225px;;
+}

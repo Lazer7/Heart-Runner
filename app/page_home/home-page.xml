@@ -1,0 +1,14 @@
+<Page class="page"
+    navigatingTo="onNavigatingTo"  
+    xmlns="http://schemas.nativescript.org/tns.xsd">
+
+    <ActionBar class="action-bar">
+        <Label class="action-bar-title" text="Prototype Version 1.0.0"></Label>
+    </ActionBar>
+
+    <GridLayout>
+        <Image src="~/images/icon.png" verticalAlignment="top" width="200" height="200" stretch="aspectFill" />
+        <Label text="{{ title }}" textWrap="true" class="title" />
+        <Button text="Connect" tap="{{ onConnect }}" class="btn" />
+    </GridLayout>
+</Page>
