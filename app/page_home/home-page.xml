@@ -3,7 +3,7 @@
     xmlns="http://schemas.nativescript.org/tns.xsd">
 
     <ActionBar class="action-bar">
-        <Label class="action-bar-title" text="Prototype Version 1.0.0"></Label>
+        <Label class="action-bar-title" text="Heart Runner 1.0.0"></Label>
     </ActionBar>
 
     <GridLayout>
