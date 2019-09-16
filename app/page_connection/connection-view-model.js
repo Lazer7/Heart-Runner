@@ -142,11 +142,9 @@ var ConnectionViewModel = (function (_super) {
             });
     };
     ConnectionViewModel.prototype.onPeripheralTap = function (args) {
-        console.log("HEREISON")
         var index = args.index;
-        console.log('!!&&&&***** Clicked item with index ' + index);
         var peri = ConnectionViewModel.prototype.peripherals.getItem(index);
-        console.log("--- peri selected: " + peri.UUID);
+        console.log("------ Peripheral selected: " + peri.UUID + " ------");
         const button = args.object;
         const page = button.page;
         var navigationEntry = {

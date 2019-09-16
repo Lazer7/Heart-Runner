@@ -1,10 +1,29 @@
 <Page class="page" navigatingTo="onNavigatingTo" 
     xmlns="http://schemas.nativescript.org/tns.xsd">
-    <GridLayout>
-        <Label text="{{ heartrate.UUID }}" textWrap="true" class="uuid" />
-        <Label text="{{ heartrate.HeartRate }}" textWrap="true" class="heartrate" />
-        <Label text="{{ heartrate.Signal }}" textWrap="true" class="signal" />
-        <Label text="{{ heartrate.Other }}" textWrap="true" class="other" />
+    <ActionBar class="action-bar">
+        <Label class="action-bar-title" text="Heart Runner 1.0.0"></Label>
+    </ActionBar>
+    <StackLayout>
+        <Label text="Device Data" class="title" />
+        <GridLayout class="ble-data" columns="*, *" rows="auto, auto, auto, auto" horizontalAlignment="center">
+            <Label row="0" colSpan="2" text="{{ heartrate.UUID }}" class="uuid" />
+            <Label row="1" colSpan="2" text="{{ heartrate.HeartRate }}" class="heartrate" />
+            <Label row="2" colSpan="2" text="{{ heartrate.Signal }}" class="signal" />
+            <Label row="3" colSpan="2" text="{{ heartrate.Other }}" class="other" />
+        </GridLayout>
+        <StackLayout class="input-field">
+            <Label row="0" colSpan="2" text="Name" textWrap="true" class="uuid" />
+            <TextField hint="Name" text='{{ data.name }}' secure="false" keyboardType="email" returnKeyType="done" returnPress="onReturnPress" autocorrect="false" focus="onFocus" blur="onBlur" class="input input-border"/>
 
-    </GridLayout>
+            <Label row="0" colSpan="2" text="Age" textWrap="true" class="uuid" />
+            <TextField hint="Age" text='{{ data.age }}' secure="false" keyboardType="number" returnKeyType="done" returnPress="onReturnPress" autocorrect="false" maxLength="3" focus="onFocus" blur="onBlur" class="input input-border"/>
+
+            <Label row="0" colSpan="2" text="{{data.maxHeartRate}} " textWrap="true" class="uuid" />
+            <Label row="1" colSpan="2" text="{{data.easy}} " textWrap="true" class="uuid" />
+            <Label row="2" colSpan="2" text="{{data.medium}} " textWrap="true" class="uuid" />
+            <Label row="3" colSpan="2" text="{{data.hard}} " textWrap="true" class="uuid" />
+            <Label row="4" colSpan="2" text="{{data.danger}} " textWrap="true" class="uuid" />
+        </StackLayout>
+    </StackLayout>
+
 </Page>

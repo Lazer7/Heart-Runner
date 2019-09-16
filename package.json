@@ -13,6 +13,7 @@
   "repository": "<fill-your-repository-here>",
   "dependencies": {
     "nativescript-bluetooth": "^2.0.0-beta.23",
+    "nativescript-camera": "^4.5.0",
     "nativescript-theme-core": "~1.0.4",
     "tns-core-modules": "^6.0.7"
   },
