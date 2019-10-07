@@ -8,8 +8,6 @@
         <GridLayout class="ble-data" columns="*, *" rows="auto, auto, auto, auto" horizontalAlignment="center">
             <Label row="0" colSpan="2" text="{{ heartrate.UUID }}" class="uuid" />
             <Label row="1" colSpan="2" text="{{ heartrate.HeartRate }}" class="heartrate" />
-            <Label row="2" colSpan="2" text="{{ heartrate.Signal }}" class="signal" />
-            <Label row="3" colSpan="2" text="{{ heartrate.Other }}" class="other" />
         </GridLayout>
         <StackLayout class="input-field">
             <Label row="0" colSpan="2" text="Name" textWrap="true" class="uuid" />
@@ -31,7 +29,7 @@
             <Image row="0" col="1" class="image" src="{{data.imageUri}}" stretch="aspectFill" />
             <Image row="0" col="2" class="image" src="https://www.nativescript.org/images/default-source/Blogs/ns-logo_share_600x315.png" stretch="aspectFill" />
         </GridLayout>
-         <Button text="Go To Visualization" tap="{{ visualization }}" class="btn" />
+         <Button text="Add Player" tap="{{ visualization }}" class="btn" />
 
     </StackLayout>
 

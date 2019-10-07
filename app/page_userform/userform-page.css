@@ -1,0 +1,32 @@
+.addbtn {
+    background-color: #ff0000;
+    border-radius: 5;
+    color: white;
+    font-size: 15;
+    margin: 5px 5px 5px 150px;
+}
+.deletebtn{
+    background-color: #ff0000;
+    border-radius: 5;
+    color: white;
+    font-size: 15;
+    vertical-align: right;
+    margin: 5px 50px 5px 50px; 
+}
+.btn {
+    background-color: #ff0000;
+    border-radius: 5;
+    color: white;
+    font-size: 15;
+    margin: 5px 5px 5px 5px;
+}
+.title {
+    color: #ff0000;
+    font-size: 30;
+    text-align: center;
+    vertical-align: middle;
+    width: 100%;
+}
+.uuid-label{
+    margin-top:50px;
+}

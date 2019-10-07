@@ -21,7 +21,7 @@
     </GridLayout>
     <ActivityIndicator busy="{{ isLoading }}" />
     <GridLayout rows="*">
-      <ListView items="{{ peripherals }}" itemTap="onPeripheralTap" separatorColor="#90c3d4">
+      <ListView items="{{ peripherals }}" itemTap="{{onPeripheralTap}}" separatorColor="#90c3d4">
         <ListView.itemTemplate>
           <StackLayout orientation="horizontal" class="padded-label">
             <StackLayout class="padded-label-stack">

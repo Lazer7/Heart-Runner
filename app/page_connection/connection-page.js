@@ -1,10 +1,8 @@
 var vmModule = require("./connection-view-model");
-
-
 module.exports = {
     onNavigatingTo: function (args) {
         const page = args.object;
-        page.bindingContext = vmModule.connectionViewModel;
+        page.bindingContext = new vmModule.connectionViewModel(args);
     },
-    onPeripheralTap: vmModule.connectionViewModel.onPeripheralTap
+
 }

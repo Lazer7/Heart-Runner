@@ -10,13 +10,15 @@ const bluetooth = new Bluetooth();
 var ConnectionViewModel = (function (_super) {
     __extends(ConnectionViewModel, _super);
 
-    function ConnectionViewModel() {
+    function ConnectionViewModel(args) {
         _super.call(this);
+        ConnectionViewModel.prototype.playerList = args.object.navigationContext.playerList;
     }
     // Creates a Bluetooth Peripherals Observable Array Object 
     var observablePeripheralArray = new observableArray.ObservableArray();
     // Have the viewmodel listen onto obesrvable
     ConnectionViewModel.prototype.peripherals = observablePeripheralArray;
+    ConnectionViewModel.prototype.players = [];
     /**
      * Checks if the device's bluetooth is enabled
      */
@@ -72,6 +74,7 @@ var ConnectionViewModel = (function (_super) {
             onDiscovered: function (peripheral) {
                 // Variables to check if the device was already recorded in the list
                 var duplicate = false;
+                var selected = false;
                 var duplicateIndex = -1;
                 // Iterate through current list of peripherals to look for duplicates
                 for (var numberOfDevices = 0; numberOfDevices < observablePeripheralArray.length; numberOfDevices++) {
@@ -81,10 +84,16 @@ var ConnectionViewModel = (function (_super) {
                         break;
                     }
                 }
+                ConnectionViewModel.prototype.playerList.forEach(element => {
+                    if (peripheral.UUID === element.peripheral.UUID) {
+                        selected = true;
+                    }
+                })
+
                 // If a duplicate was not found add it into the array or just update the value
-                if (!duplicate) {
+                if (!duplicate && !selected) {
                     observablePeripheralArray.push(observable.fromObject(peripheral));
-                } else {
+                } else if (!selected) {
                     observablePeripheralArray.setItem(duplicateIndex, observable.fromObject(peripheral))
                 }
 
@@ -110,24 +119,30 @@ var ConnectionViewModel = (function (_super) {
             serviceUUIDs: ['180d'], // pass an empty array to scan for all services
             seconds: 4, // passing in seconds makes the plugin stop scanning after <seconds> seconds
             onDiscovered: function (peripheral) {
-               // Variables to check if the device was already recorded in the list
-               var duplicate = false;
-               var duplicateIndex = -1;
-               // Iterate through current list of peripherals to look for duplicates
-               for (var numberOfDevices = 0; numberOfDevices < observablePeripheralArray.length; numberOfDevices++) {
-                   if (observablePeripheralArray.getItem(numberOfDevices).UUID === peripheral.UUID) {
-                       duplicate = true;
-                       duplicateIndex = numberOfDevices;
-                       break;
-                   }
-               }
-               // If a duplicate was not found add it into the array or just update the value
-               // Also filters out for just Heart Zone Devices
-               if (!duplicate && (peripheral.name !==null  && peripheral.name.includes('RHYTHM'))) {
-                   observablePeripheralArray.push(observable.fromObject(peripheral));
-               } else {
-                   observablePeripheralArray.setItem(duplicateIndex, observable.fromObject(peripheral))
-               }
+                // Variables to check if the device was already recorded in the list
+                var duplicate = false;
+                var selected = false;
+                var duplicateIndex = -1;
+                // Iterate through current list of peripherals to look for duplicates
+                for (var numberOfDevices = 0; numberOfDevices < observablePeripheralArray.length; numberOfDevices++) {
+                    if (observablePeripheralArray.getItem(numberOfDevices).UUID === peripheral.UUID) {
+                        duplicate = true;
+                        duplicateIndex = numberOfDevices;
+                        break;
+                    }
+                }
+                ConnectionViewModel.prototype.playerList.forEach(element => {
+                    if (peripheral.UUID === element.peripheral.UUID) {
+                        selected = true;
+                    }
+                })
+                // If a duplicate was not found add it into the array or just update the value
+                // Also filters out for just Heart Zone Devices
+                if ((!duplicate && !selected) && (peripheral.name !== null && peripheral.name.includes('RHYTHM'))  ) {
+                    observablePeripheralArray.push(observable.fromObject(peripheral));
+                } else if(!selected){
+                    observablePeripheralArray.setItem(duplicateIndex, observable.fromObject(peripheral))
+                }
             }
         }).then(function () {
                 that.set('isLoading', false);
@@ -147,10 +162,13 @@ var ConnectionViewModel = (function (_super) {
         console.log("------ Peripheral selected: " + peri.UUID + " ------");
         const button = args.object;
         const page = button.page;
+        // Clear peripherals
+        observablePeripheralArray.splice(0, observablePeripheralArray.length);
         var navigationEntry = {
             moduleName: "page_heartrate/heartrate-page",
             context: {
-                peripheral: peri
+                peripheral: peri,
+                playerList: ConnectionViewModel.prototype.playerList
             }
         }
         page.frame.navigate(navigationEntry);
@@ -159,4 +177,4 @@ var ConnectionViewModel = (function (_super) {
 })(observable.Observable);
 
 
-exports.connectionViewModel = new ConnectionViewModel();
+exports.connectionViewModel = ConnectionViewModel;

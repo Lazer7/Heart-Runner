@@ -18,6 +18,7 @@ var HeartrateViewModel = (function (_super) {
         _super.call(this);
         this.title = "Heart Monitoring";
         this.peripheral = args.object.navigationContext.peripheral;
+        this.playerList = args.object.navigationContext.playerList;
         this.page = args.object;
         HeartrateViewModel.prototype.data.set("name", "");
         HeartrateViewModel.prototype.data.set("age", "");
@@ -46,7 +47,7 @@ var HeartrateViewModel = (function (_super) {
             }
         });
 
-        HeartrateViewModel.prototype.heartrate.set("UUID", "UUID: " + this.peripheral.UUID)
+        HeartrateViewModel.prototype.heartrate.set("UUID", "Device: " + this.peripheral.UUID)
         bluetooth.connect({
             UUID: this.peripheral.UUID,
             onConnected: function (peripheral) {
@@ -94,29 +95,46 @@ var HeartrateViewModel = (function (_super) {
             },
             function failure() {
                 // permission request rejected
-                // ... tell the user ...
                 console.log("ERROR")
             }
         );
     }
-    HeartrateViewModel.prototype.visualization = function(args){
+    HeartrateViewModel.prototype.visualization = function (args) {
         const button = args.object;
         const page = button.page;
-        bluetooth.disconnect({
-            UUID: this.peripheral.UUID
-          }).then(function() {
-            console.log("disconnected successfully");
-          }, function (err) {
-            // in this case you're probably best off treating this as a disconnected peripheral though
-            console.log("disconnection error: " + err);
-          });
-        var navigationEntry = {
-            moduleName: "page_visualization/visualization-page",
-            context: {
+
+        var name = HeartrateViewModel.prototype.data.get("name")
+        var age = HeartrateViewModel.prototype.data.get("age");
+        if (name !== "" && age !== "") {
+            bluetooth.disconnect({
+                UUID: this.peripheral.UUID
+            }).then(function () {
+                console.log("disconnected successfully");
+            }, function (err) {
+                // in this case you're probably best off treating this as a disconnected peripheral though
+                console.log("disconnection error: " + err);
+            });
+            var player = {
+                name: name,
+                age: age,
                 peripheral: this.peripheral
             }
+            this.playerList.push(player);
+            var navigationEntry = {
+                moduleName: "page_userform/userform-page",
+                context: {
+                    peripheral: this.peripheral,
+                    playerList: this.playerList
+                }
+            }
+            page.frame.navigate(navigationEntry);
+        } else {
+            dialogs.alert({
+                title: "Error",
+                message: "You need to fill out name and age"
+            })
+
         }
-        page.frame.navigate(navigationEntry);
     }
     return HeartrateViewModel;
 })(observable.Observable);

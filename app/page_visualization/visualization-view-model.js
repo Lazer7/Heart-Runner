@@ -13,10 +13,11 @@ const bluetooth = new Bluetooth();
 var VisualizationViewModel = (function (_super) {
     __extends(VisualizationViewModel, _super);
     VisualizationViewModel.prototype.players = [];
+
     function VisualizationViewModel(args) {
         _super.call(this);
-    
-        this.peripheral = args.object.navigationContext.peripheral
+
+        this.playerList = args.object.navigationContext.playerList
         VisualizationViewModel.prototype.players.push(args.object.getViewById('player1'));
         VisualizationViewModel.prototype.players.push(args.object.getViewById('player2'));
         VisualizationViewModel.prototype.players.push(args.object.getViewById('player3'));
@@ -36,33 +37,64 @@ var VisualizationViewModel = (function (_super) {
         VisualizationViewModel.prototype.players[1].addCss("#player2 { top:1000px;}");
         VisualizationViewModel.prototype.players[2].addCss("#player3 { top:1000px;}");
         VisualizationViewModel.prototype.players[3].addCss("#player4 { top:1000px;}");
-
-        bluetooth.connect({
-            UUID: this.peripheral.UUID,
-            onConnected: function (peripheral) {
-                bluetooth.startNotifying({
-                    peripheralUUID: peripheral.UUID,
-                    serviceUUID: '180d',
-                    characteristicUUID: '2a37',
-                    onNotify: function (result) {
-
-                        var view = new Int8Array(result.value);
-                        VisualizationViewModel.prototype.players[0].addCss("#player1 { top:" + (1000-view[1]) + "px;}");
-                        console.log(view[1]);
-                        console.log("#player1 { top:" + (1000-view[1]) + "px;}")
-                        // HeartrateViewModel.prototype.heartrate.set("HeartRate", "Heart Rate: " + view[1]);
-                        // HeartrateViewModel.prototype.heartrate.set("Signal", "Signal: " + view[2]);
-                        // HeartrateViewModel.prototype.heartrate.set("Other", "Other: " + view[3]);
-                    }
-                });
-            },
-            onDisconnected: function (peripheral) {
-                console.log("Periperhal disconnected with UUID: " + peripheral.UUID);
-            }
-        })
-
-
-
+        if (this.playerList[0])
+            bluetooth.connect({
+                UUID: this.playerList[0].peripheral.UUID,
+                onConnected: function (peripheral) {
+                    bluetooth.startNotifying({
+                        peripheralUUID: peripheral.UUID,
+                        serviceUUID: '180d',
+                        characteristicUUID: '2a37',
+                        onNotify: function (result) {
+                            var view = new Int8Array(result.value);
+                            VisualizationViewModel.prototype.players[0].addCss("#player" + 1 + " { top:" + (1000 - view[1]) + "px;}");
+                            console.log("#player" + 1 + " { top:" + (1000 - view[1]) + "px;}")
+                        }
+                    });
+                },
+                onDisconnected: function (peripheral) {
+                    console.log("Periperhal disconnected with UUID: " + peripheral.UUID);
+                }
+            })
+        if (this.playerList[1])
+            bluetooth.connect({
+                UUID: this.playerList[1].peripheral.UUID,
+                onConnected: function (peripheral) {
+                    bluetooth.startNotifying({
+                        peripheralUUID: peripheral.UUID,
+                        serviceUUID: '180d',
+                        characteristicUUID: '2a37',
+                        onNotify: function (result) {
+                            var view = new Int8Array(result.value);
+                            VisualizationViewModel.prototype.players[1].addCss("#player" + (2) + " { top:" + (1000 - view[1]) + "px;}");
+                            console.log("#player" + 2 + " { top:" + (1000 - view[1]) + "px;}")
+                        }
+                    });
+                },
+                onDisconnected: function (peripheral) {
+                    console.log("Periperhal disconnected with UUID: " + peripheral.UUID);
+                }
+            })
+        if (this.playerList[2])
+            bluetooth.connect({
+                UUID: this.playerList[2].peripheral.UUID,
+                onConnected: function (peripheral) {
+                    bluetooth.startNotifying({
+                        peripheralUUID: peripheral.UUID,
+                        serviceUUID: '180d',
+                        characteristicUUID: '2a37',
+                        onNotify: function (result) {
+                            var view = new Int8Array(result.value);
+                            VisualizationViewModel.prototype.players[2].addCss("#player" + 3 + " { top:" + (1000 - view[1]) + "px;}");
+                            console.log("#player" + 3 + " { top:" + (1000 - view[1]) + "px;}")
+                        }
+                    });
+                },
+                onDisconnected: function (peripheral) {
+                    console.log("Periperhal disconnected with UUID: " + peripheral.UUID);
+                }
+            })
+        
         // id = timerModule.setInterval(() => {
         //     var max = 1000;
         //     var min = 0;

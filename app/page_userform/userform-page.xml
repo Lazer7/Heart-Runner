@@ -1,0 +1,27 @@
+<Page class="page" navigatingTo="onNavigatingTo" 
+    xmlns="http://schemas.nativescript.org/tns.xsd">
+
+    <ActionBar class="action-bar">
+        <Label class="action-bar-title" text="Heart Runner 1.0.0"></Label>
+    </ActionBar>
+
+    <StackLayout>
+        <GridLayout columns="*, *" rows="auto,auto" horizontalAlignment="center" class="tab-content">
+            <Label row="0" col="0" text="Player Form" class="title" textWrap="true" />
+            <Button row="0" col="1" text="+" tap="{{ addPlayer }}" class="addbtn" />
+            <Button row="1" colSpan="2" text="Start" tap="{{ start }}" class="btn" />
+        </GridLayout>
+        <ActivityIndicator busy="{{ isLoading }}" />
+        <GridLayout rows="*">
+            <ListView items="{{ players }}" itemTap="onPeripheralTap" separatorColor="#90c3d4">
+                <ListView.itemTemplate>
+                    <GridLayout columns="*, * , *" rows="auto,auto" class="padded-label-stack">
+                        <Label row="0" col="1" text="{{ name }}" class="title-label" textWrap="true" />
+                        <Label row="0" col="1" text="{{ peripheral.UUID }}" class="uuid-label" textWrap="true" />
+                        <Button row="0" col="2" text="Delete" class="deletebtn" />
+                    </GridLayout>
+                </ListView.itemTemplate>
+            </ListView>
+        </GridLayout>
+    </StackLayout>
+</Page>

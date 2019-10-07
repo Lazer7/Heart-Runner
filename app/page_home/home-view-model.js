@@ -11,7 +11,7 @@ var HomeViewModel = (function (_super) {
     HomeViewModel.prototype.onConnect = function (args) {
         const button = args.object;
         const page = button.page;
-        page.frame.navigate("page_connection/connection-page")
+        page.frame.navigate("page_userform/userform-page");
     }
     return HomeViewModel;
 })(observable.Observable);
