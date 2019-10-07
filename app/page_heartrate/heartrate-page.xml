@@ -24,6 +24,15 @@
             <Label row="3" colSpan="2" text="{{data.hard}} " textWrap="true" class="uuid" />
             <Label row="4" colSpan="2" text="{{data.danger}} " textWrap="true" class="uuid" />
         </StackLayout>
+
+        <Button text="Take Avatar Picture" tap="{{ takePicture }}" class="btn" />
+        <GridLayout columns="*, *, *" rows="auto, auto, auto, auto" horizontalAlignment="center" class="tab-content">
+            <Image row="0" col="0" class="image" src="~/images/lol.jpg" stretch="aspectFill" />
+            <Image row="0" col="1" class="image" src="{{data.imageUri}}" stretch="aspectFill" />
+            <Image row="0" col="2" class="image" src="https://www.nativescript.org/images/default-source/Blogs/ns-logo_share_600x315.png" stretch="aspectFill" />
+        </GridLayout>
+         <Button text="Go To Visualization" tap="{{ visualization }}" class="btn" />
+
     </StackLayout>
 
 </Page>

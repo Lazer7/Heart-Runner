@@ -9,16 +9,9 @@ var HomeViewModel = (function (_super) {
         this.title = "Heart Runner";
     }
     HomeViewModel.prototype.onConnect = function (args) {
-        // dialogs.alert({
-        //   title:"Work in Progress",
-        //   message: "Stay tune!"
-        // })
-         const button = args.object;
-         const page = button.page;
-         page.frame.navigate("page_connection/connection-page")
-
-
-        //page.frame.navigate("connection");
+        const button = args.object;
+        const page = button.page;
+        page.frame.navigate("page_connection/connection-page")
     }
     return HomeViewModel;
 })(observable.Observable);

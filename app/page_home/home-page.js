@@ -5,10 +5,13 @@ logic, and to set up your page’s data binding.
 */
 
 const vmModule = require("./home-view-model");
-
+var orientationModule = require("nativescript-screen-orientation");
 module.exports= {
     onNavigatingTo:function(args) {
         const page = args.object;
+        orientationModule.setCurrentOrientation("portrait", function () {
+            console.log("portrait orientation set");
+        });
         page.bindingContext = vmModule.homeViewModel;
     }
 }

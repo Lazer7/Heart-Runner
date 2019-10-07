@@ -2,6 +2,8 @@ var observable = require("tns-core-modules/data/observable");
 var observableArray = require("tns-core-modules/data/observable-array");
 var frameModule = require("tns-core-modules/ui/frame");
 var dialogs = require("tns-core-modules/ui/dialogs");
+var camera = require("nativescript-camera");
+var imageModule = require("tns-core-modules/ui/image");
 var {
     Bluetooth
 } = require('nativescript-bluetooth');
@@ -25,6 +27,8 @@ var HeartrateViewModel = (function (_super) {
         HeartrateViewModel.prototype.data.set("medium", "Moderate Work Out (Yellow): 0");
         HeartrateViewModel.prototype.data.set("hard", "Intense Work Out (Green): 0");
         HeartrateViewModel.prototype.data.set("danger", "Out of Range (White): 0");
+        HeartrateViewModel.prototype.data.set("imageUri", "~/images/lol.jpg");
+        console.log(HeartrateViewModel.prototype.data.get("imageUri"));
         HeartrateViewModel.prototype.data.addEventListener(observable.Observable.propertyChangeEvent, (args) => {
             if (args.propertyName === 'age') {
                 var value = 0;
@@ -69,6 +73,50 @@ var HeartrateViewModel = (function (_super) {
                 console.log("Periperhal disconnected with UUID: " + peripheral.UUID);
             }
         })
+    }
+    HeartrateViewModel.prototype.takePicture = function () {
+        camera.requestPermissions().then(
+            function success() {
+                // permission request accepted or already granted 
+                // ... call camera.takePicture here ...
+                camera.takePicture()
+                    .then(function (imageAsset) {
+                        console.log("Result is an image asset instance");
+                        var image = new imageModule.Image();
+                        image.src = imageAsset;
+                        console.log(HeartrateViewModel.prototype.data.get("imageUri"));
+                        HeartrateViewModel.prototype.data.get("imageUri", imageAsset);
+                        console.log(HeartrateViewModel.prototype.get("imageUri"));
+                        console.log(image)
+                    }).catch(function (err) {
+                        console.log("Error -> " + err.message);
+                    });
+            },
+            function failure() {
+                // permission request rejected
+                // ... tell the user ...
+                console.log("ERROR")
+            }
+        );
+    }
+    HeartrateViewModel.prototype.visualization = function(args){
+        const button = args.object;
+        const page = button.page;
+        bluetooth.disconnect({
+            UUID: this.peripheral.UUID
+          }).then(function() {
+            console.log("disconnected successfully");
+          }, function (err) {
+            // in this case you're probably best off treating this as a disconnected peripheral though
+            console.log("disconnection error: " + err);
+          });
+        var navigationEntry = {
+            moduleName: "page_visualization/visualization-page",
+            context: {
+                peripheral: this.peripheral
+            }
+        }
+        page.frame.navigate(navigationEntry);
     }
     return HeartrateViewModel;
 })(observable.Observable);

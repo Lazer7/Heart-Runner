@@ -1,0 +1,18 @@
+.mountain {
+    width: 50%;
+}
+
+.btn {
+    background-color: #ff0000;
+    border-radius: 5;
+    color: white;
+    font-family: FontAwesome;
+    font-size: 24;
+    vertical-align: middle;
+    width: 80%;
+}
+
+.avatar {
+    height: 200px;
+    width: 200px;
+}
