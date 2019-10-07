@@ -13,6 +13,7 @@ const bluetooth = new Bluetooth();
 var VisualizationViewModel = (function (_super) {
     __extends(VisualizationViewModel, _super);
     VisualizationViewModel.prototype.players = [];
+    VisualizationViewModel.prototype.displacement = 0;
 
     function VisualizationViewModel(args) {
         _super.call(this);
@@ -22,21 +23,19 @@ var VisualizationViewModel = (function (_super) {
         VisualizationViewModel.prototype.players.push(args.object.getViewById('player2'));
         VisualizationViewModel.prototype.players.push(args.object.getViewById('player3'));
         VisualizationViewModel.prototype.players.push(args.object.getViewById('player4'));
-        // console.log(player1)
-        // const getMethods = (obj) => {
-        //     let properties = new Set()
-        //     let currentObj = obj
-        //     do {
-        //       Object.getOwnPropertyNames(currentObj).map(item => properties.add(item))
-        //     } while ((currentObj = Object.getPrototypeOf(currentObj)))
-        //     return [...properties.keys()].filter(item => typeof obj[item] === 'function')
-        //   }
-        // //console.log(getMethods(player1))
+        var mountain = args.object.getViewById("mountain")
         // 1080 x 1920 
-        VisualizationViewModel.prototype.players[0].addCss("#player1 { top:1000px;}");
-        VisualizationViewModel.prototype.players[1].addCss("#player2 { top:1000px;}");
-        VisualizationViewModel.prototype.players[2].addCss("#player3 { top:1000px;}");
-        VisualizationViewModel.prototype.players[3].addCss("#player4 { top:1000px;}");
+
+        mountain.addCss("#mountain {height:" + platformModule.screen.mainScreen.heightPixels + "px; width: 100%;}")
+        VisualizationViewModel.prototype.displacement = platformModule.screen.mainScreen.heightPixels / 4;
+        console.log(VisualizationViewModel.prototype.displacement);
+        console.log(platformModule.screen.mainScreen.heightPixels);
+        console.log(platformModule.screen.mainScreen.heightPixels - VisualizationViewModel.prototype.displacement)
+        console.log("Compiled");
+        VisualizationViewModel.prototype.players[0].addCss("#player1 { top:" + (platformModule.screen.mainScreen.heightPixels - VisualizationViewModel.prototype.displacement) + "px;}");
+        VisualizationViewModel.prototype.players[1].addCss("#player2 { top:" + (platformModule.screen.mainScreen.heightPixels - VisualizationViewModel.prototype.displacement) + "px;}");
+        VisualizationViewModel.prototype.players[2].addCss("#player3 { top:" + (platformModule.screen.mainScreen.heightPixels - VisualizationViewModel.prototype.displacement) + "px;}");
+        VisualizationViewModel.prototype.players[3].addCss("#player4 { top:" + (platformModule.screen.mainScreen.heightPixels - VisualizationViewModel.prototype.displacement) + "px;}");
         if (this.playerList[0])
             bluetooth.connect({
                 UUID: this.playerList[0].peripheral.UUID,
@@ -47,8 +46,8 @@ var VisualizationViewModel = (function (_super) {
                         characteristicUUID: '2a37',
                         onNotify: function (result) {
                             var view = new Int8Array(result.value);
-                            VisualizationViewModel.prototype.players[0].addCss("#player" + 1 + " { top:" + (1000 - view[1]) + "px;}");
-                            console.log("#player" + 1 + " { top:" + (1000 - view[1]) + "px;}")
+                            VisualizationViewModel.prototype.players[0].addCss("#player1 { top:" + (platformModule.screen.mainScreen.heightPixels - VisualizationViewModel.prototype.displacement - view[1]) + "px;}");
+                            console.log("#player1 { top:" + (platformModule.screen.mainScreen.heightPixels - VisualizationViewModel.prototype.displacement - view[1]) + "px;}");
                         }
                     });
                 },
@@ -66,8 +65,8 @@ var VisualizationViewModel = (function (_super) {
                         characteristicUUID: '2a37',
                         onNotify: function (result) {
                             var view = new Int8Array(result.value);
-                            VisualizationViewModel.prototype.players[1].addCss("#player" + (2) + " { top:" + (1000 - view[1]) + "px;}");
-                            console.log("#player" + 2 + " { top:" + (1000 - view[1]) + "px;}")
+                            VisualizationViewModel.prototype.players[1].addCss("#player2 { top:" + (platformModule.screen.mainScreen.heightPixels - VisualizationViewModel.prototype.displacement - view[1]) + "px;}");
+                            console.log("#player2 { top:" + (platformModule.screen.mainScreen.heightPixels - VisualizationViewModel.prototype.displacement - view[1]) + "px;}");
                         }
                     });
                 },
@@ -85,8 +84,8 @@ var VisualizationViewModel = (function (_super) {
                         characteristicUUID: '2a37',
                         onNotify: function (result) {
                             var view = new Int8Array(result.value);
-                            VisualizationViewModel.prototype.players[2].addCss("#player" + 3 + " { top:" + (1000 - view[1]) + "px;}");
-                            console.log("#player" + 3 + " { top:" + (1000 - view[1]) + "px;}")
+                            VisualizationViewModel.prototype.players[2].addCss("#player3 { top:" + (platformModule.screen.mainScreen.heightPixels - VisualizationViewModel.prototype.displacement - view[1]) + "px;}");
+                            console.log("#player3 { top:" + (platformModule.screen.mainScreen.heightPixels - VisualizationViewModel.prototype.displacement - view[1]) + "px;}");
                         }
                     });
                 },
@@ -94,7 +93,7 @@ var VisualizationViewModel = (function (_super) {
                     console.log("Periperhal disconnected with UUID: " + peripheral.UUID);
                 }
             })
-        
+
         // id = timerModule.setInterval(() => {
         //     var max = 1000;
         //     var min = 0;
