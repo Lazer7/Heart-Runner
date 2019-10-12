@@ -3,9 +3,7 @@ var orientationModule = require("nativescript-screen-orientation");
 module.exports = {
     onNavigatingTo: function (args) {
         const page = args.object;
-        orientationModule.setCurrentOrientation("portrait", function () {
-            console.log("portrait orientation set");
-        });
+        orientationModule.setCurrentOrientation("portrait");
         page.bindingContext = new vmModule.heartrateViewModel(args);
     }
 }
