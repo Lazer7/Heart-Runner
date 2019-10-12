@@ -20,6 +20,7 @@ var UserFormViewModel = (function (_super) {
     function UserFormViewModel(args) {
         _super.call(this);
         this.playerList = args.object.navigationContext ? args.object.navigationContext.playerList : [];
+        UserFormViewModel.prototype.data.set("timer", 0);
         if (this.playerList.length !== 0) {
             this.playerList.forEach(element => {
                 observablePlayerArray.push(element);
@@ -58,6 +59,23 @@ var UserFormViewModel = (function (_super) {
             })
         }
     }
+    UserFormViewModel.prototype.deleteUser = function (args) {
+        var self = this;
+        dialogs.confirm({
+            title: "Delete Player?",
+            message: "Are you sure you want to delete player: " + this.playerList[args.index].name,
+            cancelButtonText: "No",
+            okButtonText: "Yes"
+        }).then(function (r) {
+            if (r) {
+                self.playerList.splice(args.index, 1);
+                UserFormViewModel.prototype.players.splice(args.index, 1);
+            }
+        });
+
+    }
+
+
     return UserFormViewModel;
 })(observable.Observable);
 

@@ -162,6 +162,7 @@ var ConnectionViewModel = (function (_super) {
         console.log("------ Peripheral selected: " + peri.UUID + " ------");
         const button = args.object;
         const page = button.page;
+        ConnectionViewModel.prototype.doStopScanning();
         // Clear peripherals
         observablePeripheralArray.splice(0, observablePeripheralArray.length);
         var navigationEntry = {

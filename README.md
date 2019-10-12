@@ -1,5 +1,5 @@
 <p align="Left">
-<img src="app/images/icon.png">
+<img src="app/images/icon.png" width="50%">
 </p>
 
 # Heart Runner
