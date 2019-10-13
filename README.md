@@ -1,5 +1,5 @@
 <p align="Left">
-<img src="app/images/icon.png" width="50%">
+<img src="app/images/icon.png" width="20%">
 </p>
 
 # Heart Runner
@@ -8,7 +8,9 @@
 
 ## Project Setup
 
-``` bash
-# Work in progress
+``` bash for android
+# tns run android
 ```
-
+``` bash for ios
+# tns run ios
+``` 
