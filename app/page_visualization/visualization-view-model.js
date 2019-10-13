@@ -1,10 +1,7 @@
 var observable = require("tns-core-modules/data/observable");
 const platformModule = require("tns-core-modules/platform");
-var observableArray = require("tns-core-modules/data/observable-array");
-var frameModule = require("tns-core-modules/ui/frame");
-var dialogs = require("tns-core-modules/ui/dialogs");
-var imageModule = require("tns-core-modules/ui/image");
-const timerModule = require("tns-core-modules/timer");
+var orientationModule = require("nativescript-screen-orientation");
+
 var {
     Bluetooth
 } = require('nativescript-bluetooth');
@@ -12,110 +9,92 @@ const bluetooth = new Bluetooth();
 
 var VisualizationViewModel = (function (_super) {
     __extends(VisualizationViewModel, _super);
-    VisualizationViewModel.prototype.players = [];
+    // VisualizationViewModel.prototype.players = [];
     VisualizationViewModel.prototype.displacement = 0;
 
     function VisualizationViewModel(args) {
         _super.call(this);
+        orientationModule.setCurrentOrientation("landscape");
+        // TODO: KEEP THIS
+        //this.playerList = args.object.navigationContext.playerList
 
-        this.playerList = args.object.navigationContext.playerList
-        VisualizationViewModel.prototype.players.push(args.object.getViewById('player1'));
-        VisualizationViewModel.prototype.players.push(args.object.getViewById('player2'));
-        VisualizationViewModel.prototype.players.push(args.object.getViewById('player3'));
-        VisualizationViewModel.prototype.players.push(args.object.getViewById('player4'));
-        var mountain = args.object.getViewById("mountain")
-        // 1080 x 1920 
+        // TODO: TESTING PERIPHERALS
+        this.playerList = [
+            //     {
+            //     name: "Yeet",
+            //     peripheral: "C5:FE:55:09:15:E8",
+            //     age: 23,
+            //     max: 197
+            // },
+            {
+                name: "Yeet",
+                peripheral: "F5:F6:A8:45:46:67",
+                age: 23,
+                max: 197
+            }, {
+                name: "Yeet2",
+                peripheral: "C3:8F:90:6F:27:F1",
+                age: 23,
+                max: 197
+            }
+        ]
 
-        mountain.addCss("#mountain {height:" + platformModule.screen.mainScreen.heightPixels + "px; width: 100%;}")
-        VisualizationViewModel.prototype.displacement = platformModule.screen.mainScreen.heightPixels / 4;
-        console.log(VisualizationViewModel.prototype.displacement);
-        console.log(platformModule.screen.mainScreen.heightPixels);
-        console.log(platformModule.screen.mainScreen.heightPixels - VisualizationViewModel.prototype.displacement)
-        console.log("Compiled");
-        VisualizationViewModel.prototype.players[0].addCss("#player1 { top:" + (platformModule.screen.mainScreen.heightPixels - VisualizationViewModel.prototype.displacement) + "px;}");
-        VisualizationViewModel.prototype.players[1].addCss("#player2 { top:" + (platformModule.screen.mainScreen.heightPixels - VisualizationViewModel.prototype.displacement) + "px;}");
-        VisualizationViewModel.prototype.players[2].addCss("#player3 { top:" + (platformModule.screen.mainScreen.heightPixels - VisualizationViewModel.prototype.displacement) + "px;}");
-        VisualizationViewModel.prototype.players[3].addCss("#player4 { top:" + (platformModule.screen.mainScreen.heightPixels - VisualizationViewModel.prototype.displacement) + "px;}");
-        if (this.playerList[0])
-            bluetooth.connect({
-                UUID: this.playerList[0].peripheral.UUID,
-                onConnected: function (peripheral) {
-                    bluetooth.startNotifying({
-                        peripheralUUID: peripheral.UUID,
-                        serviceUUID: '180d',
-                        characteristicUUID: '2a37',
-                        onNotify: function (result) {
-                            var view = new Int8Array(result.value);
-                            VisualizationViewModel.prototype.players[0].addCss("#player1 { top:" + (platformModule.screen.mainScreen.heightPixels - VisualizationViewModel.prototype.displacement - view[1]) + "px;}");
-                            console.log("#player1 { top:" + (platformModule.screen.mainScreen.heightPixels - VisualizationViewModel.prototype.displacement - view[1]) + "px;}");
-                        }
-                    });
-                },
-                onDisconnected: function (peripheral) {
-                    console.log("Periperhal disconnected with UUID: " + peripheral.UUID);
-                }
-            })
-        if (this.playerList[1])
-            bluetooth.connect({
-                UUID: this.playerList[1].peripheral.UUID,
-                onConnected: function (peripheral) {
-                    bluetooth.startNotifying({
-                        peripheralUUID: peripheral.UUID,
-                        serviceUUID: '180d',
-                        characteristicUUID: '2a37',
-                        onNotify: function (result) {
-                            var view = new Int8Array(result.value);
-                            VisualizationViewModel.prototype.players[1].addCss("#player2 { top:" + (platformModule.screen.mainScreen.heightPixels - VisualizationViewModel.prototype.displacement - view[1]) + "px;}");
-                            console.log("#player2 { top:" + (platformModule.screen.mainScreen.heightPixels - VisualizationViewModel.prototype.displacement - view[1]) + "px;}");
-                        }
-                    });
-                },
-                onDisconnected: function (peripheral) {
-                    console.log("Periperhal disconnected with UUID: " + peripheral.UUID);
-                }
-            })
-        if (this.playerList[2])
-            bluetooth.connect({
-                UUID: this.playerList[2].peripheral.UUID,
-                onConnected: function (peripheral) {
-                    bluetooth.startNotifying({
-                        peripheralUUID: peripheral.UUID,
-                        serviceUUID: '180d',
-                        characteristicUUID: '2a37',
-                        onNotify: function (result) {
-                            var view = new Int8Array(result.value);
-                            VisualizationViewModel.prototype.players[2].addCss("#player3 { top:" + (platformModule.screen.mainScreen.heightPixels - VisualizationViewModel.prototype.displacement - view[1]) + "px;}");
-                            console.log("#player3 { top:" + (platformModule.screen.mainScreen.heightPixels - VisualizationViewModel.prototype.displacement - view[1]) + "px;}");
-                        }
-                    });
-                },
-                onDisconnected: function (peripheral) {
-                    console.log("Periperhal disconnected with UUID: " + peripheral.UUID);
-                }
-            })
 
-        // id = timerModule.setInterval(() => {
-        //     var max = 1000;
-        //     var min = 0;
-        //     var rand1 = Math.random() * (+max - +min) + +min;
-        //     var rand2 = Math.random() * (+max - +min) + +min;
-        //     var rand3 = Math.random() * (+max - +min) + +min;
-        //     var rand4 = Math.random() * (+max - +min) + +min;
-        //     // console.log(rand1);
-        //     // console.log(rand2);
-        //     // console.log(rand3);
-        //     // console.log(rand4);
-        //     this.players[0].addCss("#player1 { top:" + (rand1) + "px;}");
-        //     this.players[1].addCss("#player2 { top:" + (rand2) + "px;}");
-        //     this.players[2].addCss("#player3 { top:" + (rand3) + "px;}");
-        //     this.players[3].addCss("#player4 { top:" + (rand4) + "px;}");
-        // }, 1000);
 
     }
 
     VisualizationViewModel.prototype.getDimension = function (args) {
-        console.log("HEIGHT" + platformModule.screen.mainScreen.heightPixels);
-        console.log("WIDTH " + platformModule.screen.mainScreen.widthPixels);
+        // Getting Frame Object
+        var page = args.object.page;
+        // Setting the displacement to 1/4 of screen size
+        VisualizationViewModel.prototype.displacement = platformModule.screen.mainScreen.heightPixels / 4;
+        // Properly Scale the Mountain
+        page.addCss("#mountain {height:" + platformModule.screen.mainScreen.heightPixels + "px; width:" + platformModule.screen.mainScreen.widthPixels + "px;}")
+        // Hide Start Button Command
+        page.addCss("#start {visibility: collapse;}")
+        // Iterate through all registered players
+        for (var i = 0; i < this.playerList.length; i++) {
+            page.addCss(`#player${i+1}{ top:${platformModule.screen.mainScreen.heightPixels - VisualizationViewModel.prototype.displacement -50}px; 
+                                        opacity:1; 
+                                        height:${VisualizationViewModel.prototype.displacement}px; 
+                                        width:${VisualizationViewModel.prototype.displacement}px;}`);
+        }
+        // Begin to connect each device individually
+        VisualizationViewModel.prototype.connectDevice(this.playerList, this.playerList.length - 1, page)
+    }
+
+    VisualizationViewModel.prototype.connectDevice = function (playerList, i, page) {
+        const actualDisplacement = platformModule.screen.mainScreen.heightPixels - VisualizationViewModel.prototype.displacement;
+        bluetooth.connect({
+            // TODO: change to peripheral.UUID
+            UUID: playerList[i].peripheral,
+            onConnected: function (peripheral) {
+                bluetooth.startNotifying({
+                    peripheralUUID: peripheral.UUID,
+                    serviceUUID: '180d',
+                    characteristicUUID: '2a37',
+                    onNotify: function (result) {
+                        var view = new Int8Array(result.value);
+                        var heartDisplacement = (playerList[i].max - (playerList[i].max * .7))
+                        var ratioDisplacement = actualDisplacement / heartDisplacement;
+                        console.log(i);
+                        if (view[1] > (playerList[i].max * 0.7)) {
+                            page.addCss("#player" + i + " { top:" + ((ratioDisplacement * (playerList[i].max - view[1])) - 50) + "px;}");
+                            console.log("#player" + i + " { top:" + ((ratioDisplacement * (playerList[i].max - view[1])) - 50) + "px;}" + " CURRENT HEART RATE: " + view[1]);
+                        } else {
+                            console.log("Heart Displacement" + ((ratioDisplacement * (playerList[i].max - view[1])) - 50));
+                            console.log("Heart rate not high enough: " + view[1]);
+                        }
+                    }
+                });
+            },
+            onDisconnected: function (peripheral) {
+                console.log("Periperhal disconnected with UUID: " + peripheral.UUID);
+            }
+        });
+        // Connect to the next device in the playerList
+        if (i > 0)
+            VisualizationViewModel.prototype.connectDevice(playerList, i - 1, page);
     }
 
     return VisualizationViewModel;

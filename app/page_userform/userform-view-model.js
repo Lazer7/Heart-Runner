@@ -1,15 +1,6 @@
 var observable = require("tns-core-modules/data/observable");
-const platformModule = require("tns-core-modules/platform");
 var observableArray = require("tns-core-modules/data/observable-array");
-var frameModule = require("tns-core-modules/ui/frame");
 var dialogs = require("tns-core-modules/ui/dialogs");
-var imageModule = require("tns-core-modules/ui/image");
-const timerModule = require("tns-core-modules/timer");
-var {
-    Bluetooth
-} = require('nativescript-bluetooth');
-const bluetooth = new Bluetooth();
-
 
 var UserFormViewModel = (function (_super) {
     __extends(UserFormViewModel, _super);

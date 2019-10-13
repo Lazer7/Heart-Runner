@@ -1,6 +1,5 @@
 var observable = require("tns-core-modules/data/observable");
 var observableArray = require("tns-core-modules/data/observable-array");
-var frameModule = require("tns-core-modules/ui/frame");
 var dialogs = require("tns-core-modules/ui/dialogs");
 var {
     Bluetooth

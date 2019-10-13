@@ -1,6 +1,4 @@
 var observable = require("tns-core-modules/data/observable");
-var observableArray = require("tns-core-modules/data/observable-array");
-var frameModule = require("tns-core-modules/ui/frame");
 var dialogs = require("tns-core-modules/ui/dialogs");
 var camera = require("nativescript-camera");
 var imageModule = require("tns-core-modules/ui/image");
@@ -38,7 +36,7 @@ var HeartrateViewModel = (function (_super) {
                 } else {
                     var value = 208 - (0.7 * parseFloat(args.value))
                 }
-
+                HeartrateViewModel.prototype.data.set("max",value);
                 HeartrateViewModel.prototype.data.set("maxHeartRate", "Maximum Heart Rate: " + value);
                 HeartrateViewModel.prototype.data.set("easy", "Easy Work Out (Red): " + Number.parseFloat(value * 0.59).toPrecision(4));
                 HeartrateViewModel.prototype.data.set("medium", "Moderate Work Out (Yellow): " + Number.parseFloat(value * 0.69).toPrecision(4));
@@ -117,6 +115,7 @@ var HeartrateViewModel = (function (_super) {
             var player = {
                 name: name,
                 age: age,
+                max: HeartrateViewModel.prototype.data.get("max"),
                 peripheral: this.peripheral
             }
             this.playerList.push(player);

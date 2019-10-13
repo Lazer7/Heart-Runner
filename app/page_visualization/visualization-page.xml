@@ -1,8 +1,8 @@
 <Page class="page" navigatingTo="onNavigatingTo" 
     xmlns="http://schemas.nativescript.org/tns.xsd" screenOrientation="landscape" actionBarHidden="true">
     <GridLayout>
-        <Image id="mountain" class="mountain" src="~/images/mountain.png" stretch="aspectFill" />
-        <!-- <Button text="Get Values" tap="{{ getDimension }}" class="btn"/> -->
+        <Image id="mountain" class="mountain" src="~/images/mountain.png"/>
+        <Button id="start" text="Press here to start!" tap="{{ getDimension }}" class="btn"/>
         <AbsoluteLayout columns="*, *, *, *" rows="auto, auto, auto, auto" horizontalAlignment="center" class="tab-content">
             <Image id="player1" left="0" top="0" class="avatar" src="~/images/lol.jpg" stretch="aspectFill" />
             <Image id="player2" left="100" top="0" class="avatar" src="~/images/lol.jpg" stretch="aspectFill" />
