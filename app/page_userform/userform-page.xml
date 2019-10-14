@@ -17,7 +17,8 @@
         <GridLayout rows="*">
             <ListView items="{{ players }}" itemTap="{{ deleteUser }}" separatorColor="#90c3d4">
                 <ListView.itemTemplate>
-                    <GridLayout columns="*, * , *" rows="auto,auto" class="padded-label-stack">
+                    <GridLayout columns="*, * , * " rows="auto, auto, auto, auto" class="padded-label-stack">
+                        <Image row="0" col="0" class="image" src="{{image}}" stretch="aspectFill" />
                         <Label row="0" col="1" text="{{ name }}" class="title-label" textWrap="true" />
                         <Label row="0" col="1" text="{{ peripheral.UUID }}" class="uuid-label" textWrap="true" />
                     </GridLayout>

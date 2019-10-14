@@ -24,12 +24,13 @@
         </StackLayout>
 
         <Button text="Take Avatar Picture" tap="{{ takePicture }}" class="btn" />
-        <GridLayout columns="*, *, *" rows="auto, auto, auto, auto" horizontalAlignment="center" class="tab-content">
-            <Image row="0" col="0" class="image" src="~/images/lol.jpg" stretch="aspectFill" />
-            <Image row="0" col="1" class="image" src="{{data.imageUri}}" stretch="aspectFill" />
-            <Image row="0" col="2" class="image" src="https://www.nativescript.org/images/default-source/Blogs/ns-logo_share_600x315.png" stretch="aspectFill" />
+        <GridLayout columns="*, *, *, *" rows="auto" horizontalAlignment="center" class="tab-content">
+            <Image id="image1" row="0" col="0" class="image" tap="{{select}}" value="1" src="~/images/hero.jpg" stretch="aspectFill" />
+            <Image id="image2" row="0" col="1" class="image" tap="{{select}}" value="2" src="~/images/dino.jpg" stretch="aspectFill" />
+            <Image id="image3" row="0" col="2" class="image" tap="{{select}}" value="3" src="~/images/train.jpg" stretch="aspectFill" />
+            <Image id="image4" row="0" col="4" tap="{{select}}" value="4" class="image" src="{{data.imageUri}}" stretch="aspectFill" />
         </GridLayout>
-         <Button text="Add Player" tap="{{ visualization }}" class="btn" />
+        <Button text="Add Player" tap="{{ visualization }}" class="btn" />
 
     </StackLayout>
 

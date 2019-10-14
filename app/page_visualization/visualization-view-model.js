@@ -15,35 +15,15 @@ var VisualizationViewModel = (function (_super) {
     function VisualizationViewModel(args) {
         _super.call(this);
         orientationModule.setCurrentOrientation("landscape");
-        // TODO: KEEP THIS
-        //this.playerList = args.object.navigationContext.playerList
-
-        // TODO: TESTING PERIPHERALS
-        this.playerList = [
-            //     {
-            //     name: "Yeet",
-            //     peripheral: "C5:FE:55:09:15:E8",
-            //     age: 23,
-            //     max: 197
-            // },
-            {
-                name: "Yeet",
-                peripheral: "F5:F6:A8:45:46:67",
-                age: 23,
-                max: 197
-            }, {
-                name: "Yeet2",
-                peripheral: "C3:8F:90:6F:27:F1",
-                age: 23,
-                max: 197
-            }
-        ]
-
-
-
+        this.playerList = args.object.navigationContext.playerList
+        for(var i=0; i<this.playerList.length; i++){
+            var currentPlayer = args.object.getViewById('player'+(i+1));
+            currentPlayer.src = this.playerList[i].image;
+        }
+        console.log(this.playerList)
     }
 
-    VisualizationViewModel.prototype.getDimension = function (args) {
+    VisualizationViewModel.prototype.startVisualization = function (args) {
         // Getting Frame Object
         var page = args.object.page;
         // Setting the displacement to 1/4 of screen size
@@ -66,8 +46,7 @@ var VisualizationViewModel = (function (_super) {
     VisualizationViewModel.prototype.connectDevice = function (playerList, i, page) {
         const actualDisplacement = platformModule.screen.mainScreen.heightPixels - VisualizationViewModel.prototype.displacement;
         bluetooth.connect({
-            // TODO: change to peripheral.UUID
-            UUID: playerList[i].peripheral,
+            UUID: playerList[i].peripheral.UUID,
             onConnected: function (peripheral) {
                 bluetooth.startNotifying({
                     peripheralUUID: peripheral.UUID,
@@ -77,13 +56,12 @@ var VisualizationViewModel = (function (_super) {
                         var view = new Int8Array(result.value);
                         var heartDisplacement = (playerList[i].max - (playerList[i].max * .7))
                         var ratioDisplacement = actualDisplacement / heartDisplacement;
-                        console.log(i);
                         if (view[1] > (playerList[i].max * 0.7)) {
                             page.addCss("#player" + i + " { top:" + ((ratioDisplacement * (playerList[i].max - view[1])) - 50) + "px;}");
                             console.log("#player" + i + " { top:" + ((ratioDisplacement * (playerList[i].max - view[1])) - 50) + "px;}" + " CURRENT HEART RATE: " + view[1]);
                         } else {
                             console.log("Heart Displacement" + ((ratioDisplacement * (playerList[i].max - view[1])) - 50));
-                            console.log("Heart rate not high enough: " + view[1]);
+                            console.log("Heart rate not high enough! Heart Rate: " + view[1]);
                         }
                     }
                 });
