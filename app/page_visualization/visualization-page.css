@@ -13,3 +13,19 @@
 .avatar {
     opacity: 0;
 }
+
+.minutes{
+    color: #FF0000;
+    font-family: FontAwesome;
+    font-size: 50;
+    margin-top: 100px;
+    margin-left: 250px;
+}
+
+.seconds{
+    color: #FF0000;
+    font-family: FontAwesome;
+    font-size: 50;
+    margin-top: 100px;
+    margin-left: 450px;
+}

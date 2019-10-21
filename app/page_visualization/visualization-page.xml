@@ -3,6 +3,8 @@
     <GridLayout>
         <Image id="mountain" class="mountain" src="~/images/mountain.png"/>
         <Button id="start" text="Press here to start!" tap="{{ startVisualization }}" class="btn"/>
+        <Label text="{{ data.minuteString }}" class="title" textWrap="true" class="minutes"/>
+        <Label text="{{ data.secondString }}" class="title" textWrap="true" class="seconds"/>
         <AbsoluteLayout columns="*, *, *, *" rows="auto, auto, auto, auto" horizontalAlignment="center" class="tab-content">
             <Image id="player1" left="0" top="0" class="avatar" src="~/images/lol.jpg" stretch="aspectFill" />
             <Image id="player2" left="100" top="0" class="avatar" src="~/images/lol.jpg" stretch="aspectFill" />

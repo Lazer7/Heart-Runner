@@ -38,3 +38,8 @@
     height: 150px;
     width: 150px;
 }
+
+.page {
+    background: linear-gradient(to bottom, yellow, red);
+
+}

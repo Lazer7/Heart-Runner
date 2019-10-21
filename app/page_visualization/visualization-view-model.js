@@ -1,6 +1,7 @@
 var observable = require("tns-core-modules/data/observable");
 const platformModule = require("tns-core-modules/platform");
 var orientationModule = require("nativescript-screen-orientation");
+const timerModule = require("tns-core-modules/timer");
 
 var {
     Bluetooth
@@ -11,13 +12,19 @@ var VisualizationViewModel = (function (_super) {
     __extends(VisualizationViewModel, _super);
     // VisualizationViewModel.prototype.players = [];
     VisualizationViewModel.prototype.displacement = 0;
+    VisualizationViewModel.prototype.timer = undefined;
+    VisualizationViewModel.prototype.data = new observable.Observable();
 
     function VisualizationViewModel(args) {
         _super.call(this);
         orientationModule.setCurrentOrientation("landscape");
         this.playerList = args.object.navigationContext.playerList
-        for(var i=0; i<this.playerList.length; i++){
-            var currentPlayer = args.object.getViewById('player'+(i+1));
+        VisualizationViewModel.prototype.data.set("minuteValue", args.object.navigationContext.timer);
+        VisualizationViewModel.prototype.data.set("secondValue", 0);
+        VisualizationViewModel.prototype.data.set("minuteString", args.object.navigationContext.timer + ":");
+        VisualizationViewModel.prototype.data.set("secondString", "00");
+        for (var i = 0; i < this.playerList.length; i++) {
+            var currentPlayer = args.object.getViewById('player' + (i + 1));
             currentPlayer.src = this.playerList[i].image;
         }
         console.log(this.playerList)
@@ -41,6 +48,23 @@ var VisualizationViewModel = (function (_super) {
         }
         // Begin to connect each device individually
         VisualizationViewModel.prototype.connectDevice(this.playerList, this.playerList.length - 1, page)
+        timerModule.clearInterval(VisualizationViewModel.prototype.timer);
+        VisualizationViewModel.prototype.timer = timerModule.setInterval(() => {
+            if (VisualizationViewModel.prototype.data.get("secondValue") === 0) {
+                VisualizationViewModel.prototype.data.set("minuteValue", (VisualizationViewModel.prototype.data.get("minuteValue") - 1));
+                if (VisualizationViewModel.prototype.data.get("minuteValue") === 0) {
+                    // Code to end session
+                } else {
+                    VisualizationViewModel.prototype.data.set("secondValue", 59);
+                }
+            } else {
+                VisualizationViewModel.prototype.data.set("secondValue", (VisualizationViewModel.prototype.data.get("secondValue") - 1));
+            }
+            var zeroPlaceholderM = VisualizationViewModel.prototype.data.get("minuteValue") < 10 ? "0" : "";
+            VisualizationViewModel.prototype.data.set("minuteString", zeroPlaceholderM+VisualizationViewModel.prototype.data.get("minuteValue") + ":");
+            var zeroPlaceholderS = VisualizationViewModel.prototype.data.get("secondValue") < 10 ? "0" : "";
+            VisualizationViewModel.prototype.data.set("secondString", zeroPlaceholderS + VisualizationViewModel.prototype.data.get("secondValue") + "");
+        }, 1000);
     }
 
     VisualizationViewModel.prototype.connectDevice = function (playerList, i, page) {
@@ -60,8 +84,8 @@ var VisualizationViewModel = (function (_super) {
                             page.addCss("#player" + i + " { top:" + ((ratioDisplacement * (playerList[i].max - view[1])) - 50) + "px;}");
                             console.log("#player" + i + " { top:" + ((ratioDisplacement * (playerList[i].max - view[1])) - 50) + "px;}" + " CURRENT HEART RATE: " + view[1]);
                         } else {
-                            console.log("Heart Displacement" + ((ratioDisplacement * (playerList[i].max - view[1])) - 50));
-                            console.log("Heart rate not high enough! Heart Rate: " + view[1]);
+                            // console.log("Heart Displacement" + ((ratioDisplacement * (playerList[i].max - view[1])) - 50));
+                            //console.log("Heart rate not high enough! Heart Rate: " + view[1]);
                         }
                     }
                 });

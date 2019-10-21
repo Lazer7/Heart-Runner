@@ -11,7 +11,6 @@ var UserFormViewModel = (function (_super) {
     function UserFormViewModel(args) {
         _super.call(this);
         this.playerList = args.object.navigationContext ? args.object.navigationContext.playerList : [];
-        UserFormViewModel.prototype.data.set("timer", 0);
         if (this.playerList.length !== 0) {
             this.playerList.forEach(element => {
                 observablePlayerArray.push(element);
@@ -32,13 +31,22 @@ var UserFormViewModel = (function (_super) {
     }
 
     UserFormViewModel.prototype.start = function (args) {
+        var timer = UserFormViewModel.prototype.data.get("timer");
+        if(timer === undefined || timer === "" ){
+            dialogs.alert({
+                title: "Error",
+                message: "You need to enter a time!"
+            })
+            return;
+        }
         if (this.playerList.length >= 1) {
             const button = args.object;
             const page = button.page;
             var navigationEntry = {
                 moduleName: "page_visualization/visualization-page",
                 context: {
-                    playerList: this.playerList
+                    playerList: this.playerList,
+                    timer: UserFormViewModel.prototype.data.get("timer")
                 }
             }
             observablePlayerArray.splice(0, observablePlayerArray.length)

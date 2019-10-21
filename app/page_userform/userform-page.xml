@@ -10,8 +10,11 @@
             <Label row="0" col="0" text="Player Form" class="title" textWrap="true" />
             <Button row="0" col="1" text="+" tap="{{ addPlayer }}" class="addbtn" />
             <Button row="1" colSpan="2" text="Start" tap="{{ start }}" class="btn" />
-            <Label row="3" col="0" text="Timer:" class="title" textWrap="true"/>
-            <TextField hint="Name" row="3" col="1" text='{{ data.timer }}' secure="false" keyboardType="number" returnKeyType="done" returnPress="onReturnPress" autocorrect="false" focus="onFocus" blur="onBlur" class="input input-border"/>
+        </GridLayout>
+        <GridLayout columns="*, *, *" rows="auto" horizontalAlignment="center" class="tab-content">
+            <Label row="0" col="0" text="Timer:" class="title" textWrap="true"/>
+            <TextField hint="Timer" row="0" col="1" text='{{ data.timer }}' secure="false" keyboardType="number" returnKeyType="done" returnPress="onReturnPress" autocorrect="false" focus="onFocus" blur="onBlur" class="input input-border"/>
+            <Label row="0" col="2" text="Minutes" class="title" textWrap="true"/>
         </GridLayout>
         <ActivityIndicator busy="{{ isLoading }}" />
         <GridLayout rows="*">
