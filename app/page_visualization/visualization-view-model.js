@@ -84,8 +84,8 @@ var VisualizationViewModel = (function (_super) {
                             page.addCss("#player" + i + " { top:" + ((ratioDisplacement * (playerList[i].max - view[1])) - 50) + "px;}");
                             console.log("#player" + i + " { top:" + ((ratioDisplacement * (playerList[i].max - view[1])) - 50) + "px;}" + " CURRENT HEART RATE: " + view[1]);
                         } else {
-                            // console.log("Heart Displacement" + ((ratioDisplacement * (playerList[i].max - view[1])) - 50));
-                            //console.log("Heart rate not high enough! Heart Rate: " + view[1]);
+                            console.log("Heart Displacement" + ((ratioDisplacement * (playerList[i].max - view[1])) - 50));
+                            console.log("Heart rate not high enough! Heart Rate: " + view[1]);
                         }
                     }
                 });

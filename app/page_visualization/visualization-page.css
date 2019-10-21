@@ -29,3 +29,6 @@
     margin-top: 100px;
     margin-left: 450px;
 }
+.page {
+    background: linear-gradient(to bottom, white,skyblue);
+}
