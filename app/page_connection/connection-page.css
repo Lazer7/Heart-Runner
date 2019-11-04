@@ -1,3 +1,9 @@
+.page{
+    background:  #263143;
+}
+.menu{
+    margin: 2% 5% 5% 5%;
+}
 .btn {
     background-color: #ff0000;
     border-radius: 5;
@@ -7,16 +13,22 @@
     margin: 5px 5px 5px 5px;
 
 }
-
 .title {
     color: #ff0000;
     font-size: 50;
-    margin-bottom: 35%;
     text-align: center;
     vertical-align: middle;
     width: 90%;
 }
+.label{
+    color: #FFFFFF;
+    font-size: 20;
+}
 
 .tab-content {
     margin-top: 2%;
+}
+.image {
+    width: 150px;
+    margin-right: 5%;
 }

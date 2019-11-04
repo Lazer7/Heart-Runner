@@ -1,22 +1,19 @@
 <Page class="page" navigatingTo="onNavigatingTo" 
-  xmlns="http://schemas.nativescript.org/tns.xsd">
+  xmlns="http://schemas.nativescript.org/tns.xsd"
+  actionBarHidden="true">
 
-  <ActionBar class="action-bar">
-    <Label class="action-bar-title" text="Heart Runner 1.0.0"></Label>
-  </ActionBar>
-  <StackLayout>
-    <GridLayout columns="*, *" rows="auto, auto, auto, auto" horizontalAlignment="center" class="tab-content">
-      <iOS>
+  <StackLayout class="menu">
+    <GridLayout columns="*, *" rows="auto, auto, auto" horizontalAlignment="center" class="tab-content">
+      <!-- <iOS>
         <Button row="0" colSpan="2" text="is bluetooth enabled?" tap="{{ doIsBluetoothEnabled }}" class="btn" />
       </iOS>
       <Android>
         <Button row="0" col="0" text="Check Bluetooth" tap="{{ checkBluetoothEnabled }}" class="btn" />
         <Button row="0" col="1" text="Enable Bluetooth" tap="{{ enableBluetooth }}" class="btn" />
-      </Android>
-      <Label row="1" colSpan="2" text="Scan Options:" class="hint" textWrap="true" />
-      <Button row="2" col="0" text="any peripheral" tap="{{ doStartScanning }}" class="btn" />
-      <Button row="2" col="1" text="a heartrate monitor" tap="{{ doScanForHeartrateMontitor }}" class="btn" />
-      <Button row="3" colSpan="2" text="stop scan" tap="{{ doStopScanning }}" class="btn" />
+      </Android> -->
+      <Label row="0" colSpan="2" text="Scan Options" class="hint" textWrap="true" class="title"/>
+      <Button row="1" col="0" text="any peripheral" tap="{{ doStartScanning }}" class="btn" />
+      <Button row="1" col="1" text="heartrate monitor" tap="{{ doScanForHeartrateMontitor }}" class="btn" />
       
     </GridLayout>
     <ActivityIndicator busy="{{ isLoading }}" />
@@ -25,12 +22,11 @@
         <ListView.itemTemplate>
           <StackLayout orientation="horizontal" class="padded-label">
             <StackLayout class="padded-label-stack">
-            
-            <Label horizontalAlignment="right" width="30" text="{{ RSSI }}" class="rssi-label" />
+             <Image class="image" src="{{ RSSIvalue }}"  />
             </StackLayout>
             <StackLayout class="padded-label-stack">
-              <Label text="{{ name }}" class="title-label" textWrap="true" />
-              <Label text="{{ UUID }}" class="uuid-label" textWrap="true" />
+              <Label text="{{ name }}" class="label" textWrap="true" />
+              <Label text="{{ UUID }}" class="label" textWrap="true" />
             </StackLayout>
           </StackLayout>
         </ListView.itemTemplate>

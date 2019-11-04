@@ -1,31 +1,20 @@
+.page {
+    background-color: #263143;
+}
+
+.menu {
+    width: 100%;
+    padding: 10% 10% 10% 10%;
+}
 .title {
-    color: #000000;
+    color: #FFFFFF;
     font-size: 30;
     font-weight: bold;
     margin-left: 2%;
     margin-top: 2%;
 }
-
-.uuid {
-    color: #000000;
-    font-size: 20;
-    width: 100%;
-}
-
-.heartrate {
-    color: #000000;
-    font-size: 20;
-    width: 100%;
-}
-
-.signal {
-    color: #000000;
-    font-size: 20;
-    width: 100%;
-}
-
-.other {
-    color: #000000;
+.label{
+    color: #FFFFFF;
     font-size: 20;
     width: 100%;
 }
@@ -39,4 +28,20 @@
 .image {
     width: 20%;
     height: 200px;
+}
+.style{
+    background-color: white;
+    color: #FF0000;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.btn {
+    background-color: #ff0000;
+    border-radius: 5;
+    color: white;
+    font-size: 15;
+    vertical-align: middle;
+    margin: 2% 2% 2% 2%;
+
 }

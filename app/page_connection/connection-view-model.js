@@ -18,50 +18,19 @@ var ConnectionViewModel = (function (_super) {
     // Have the viewmodel listen onto obesrvable
     ConnectionViewModel.prototype.peripherals = observablePeripheralArray;
     ConnectionViewModel.prototype.players = [];
-    /**
-     * Checks if the device's bluetooth is enabled
-     */
-    ConnectionViewModel.prototype.checkBluetoothEnabled = function () {
-        bluetooth.isBluetoothEnabled().then(function (enabled) {
-            dialogs.alert({
-                title: "Enabled?",
-                message: enabled ? "Yes" : "No",
-                okButtonText: "OK, thanks"
-            });
-        });
-    };
-    /**
-     * Enable's device's bluetooth if it is not enabled
-     */
-    ConnectionViewModel.prototype.enableBluetooth = function () {
-        bluetooth.enable().then(function (enabled) {
-            setTimeout(function () {
-                dialogs.alert({
-                    message: "Bluetooth was " + (enabled ? "" : "not") + " enabled on this device.",
-                    okButtonText: "Continue"
-                });
-            }, 500);
-        });
-    };
-    /**
-     * Force Stop Scanning for BLE devices
-     */
+
     ConnectionViewModel.prototype.doStopScanning = function () {
-        var that = this;
+        var self = this;
         bluetooth.stopScanning().then(function () {
-                that.set('isLoading', false);
-            },
-            function (err) {
-                dialogs.alert({
-                    title: "Whoops!",
-                    message: err,
-                    okButtonText: "OK, so be it"
-                });
-            });
-    };
-    /**
-     * Start Scanning for BLE devices
-     */
+            self.set('isLoading', false);
+        }, function (err) {
+            dialogs.alert({
+                title: "Bluetooth Error",
+                message: err,
+                okButtonText: "Ok"
+            })
+        })
+    }
     ConnectionViewModel.prototype.doStartScanning = function () {
         var that = this;
         that.set('isLoading', true);
@@ -91,8 +60,10 @@ var ConnectionViewModel = (function (_super) {
 
                 // If a duplicate was not found add it into the array or just update the value
                 if (!duplicate && !selected) {
+                    peripheral.RSSIvalue = ConnectionViewModel.prototype.getRSSI(peripheral.RSSI);
                     observablePeripheralArray.push(observable.fromObject(peripheral));
                 } else if (!selected) {
+                    peripheral.RSSIvalue = ConnectionViewModel.prototype.getRSSI(peripheral.RSSI);
                     observablePeripheralArray.setItem(duplicateIndex, observable.fromObject(peripheral))
                 }
 
@@ -137,9 +108,11 @@ var ConnectionViewModel = (function (_super) {
                 })
                 // If a duplicate was not found add it into the array or just update the value
                 // Also filters out for just Heart Zone Devices
-                if ((!duplicate && !selected) && (peripheral.name !== null && peripheral.name.includes('RHYTHM'))  ) {
+                if ((!duplicate && !selected) && (peripheral.name !== null && peripheral.name.includes('RHYTHM'))) {
+                    peripheral.RSSIvalue = ConnectionViewModel.prototype.getRSSI(peripheral.RSSI);
                     observablePeripheralArray.push(observable.fromObject(peripheral));
-                } else if(!selected){
+                } else if (!selected) {
+                    peripheral.RSSIvalue = ConnectionViewModel.prototype.getRSSI(peripheral.RSSI);
                     observablePeripheralArray.setItem(duplicateIndex, observable.fromObject(peripheral))
                 }
             }
@@ -154,6 +127,12 @@ var ConnectionViewModel = (function (_super) {
                     okButtonText: "OK, got it"
                 });
             });
+    };
+    ConnectionViewModel.prototype.getRSSI = function (RSSI) {
+        if (RSSI >= -50) return "~/images/excellent.png";
+        else if (RSSI >= -60) return "~/images/good.png";
+        else if (RSSI >= -70) return "~/images/weak.png";
+        else return "~/images/poor.png";
     };
     ConnectionViewModel.prototype.onPeripheralTap = function (args) {
         var index = args.index;

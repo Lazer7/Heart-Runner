@@ -1,3 +1,9 @@
+.page{
+    background:  #263143;
+}
+.menu{
+    margin-top: 10%;
+}
 .btn {
     background-color: #ff0000;
     border-radius: 5;
@@ -6,11 +12,12 @@
     font-size: 24;
     vertical-align: middle;
     width: 80%;
+    margin-top: 5%;
 }
 .title {
     color: #ff0000;
     font-size: 50;
-    margin-bottom: 35%;
+    margin-bottom: 25%;
     text-align: center;
     vertical-align: middle;
     width: 90%;

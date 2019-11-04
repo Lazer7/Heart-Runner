@@ -1,32 +1,32 @@
 <Page class="page" navigatingTo="onNavigatingTo" 
     xmlns="http://schemas.nativescript.org/tns.xsd">
-
     <ActionBar class="action-bar">
-        <Label class="action-bar-title" text="Heart Runner 1.0.0"></Label>
+        <Label class="action-bar-title" text="Player Overview"></Label>
     </ActionBar>
+    <AbsoluteLayout>
+        <StackLayout class="menu">
+            <GridLayout columns="*, *, *" rows="auto, auto" horizontalAlignment="center" class="tab-content">
+                <Label row="0" col="0" text="Timer:" class="title" textWrap="true"/>
+                <TextField row="0" col="1" hint="0" text='{{ data.timer }}' secure="false" keyboardType="number" returnKeyType="done" returnPress="onReturnPress" autocorrect="false" focus="onFocus" blur="onBlur" class="style"/>
+                <Label row="0" col="2" text="Minutes" class="title" textWrap="true"/>
+                <Button row="1" colSpan="3" text="Start" tap="{{ start }}" class="btn" />
+            </GridLayout>
+            
+            <ActivityIndicator busy="{{ isLoading }}" />
+            <GridLayout rows="*">
+                <ListView items="{{ players }}" itemTap="{{ deleteUser }}" separatorColor="#90c3d4">
+                    <ListView.itemTemplate>
+                        <GridLayout columns="*, * , * " rows="auto, auto, auto, auto" class="padded-label-stack">
+                            <Image row="0" col="0" class="image" src="{{image}}" stretch="aspectFill" />
+                            <Label row="0" col="1" text="{{ name }}" class="label" textWrap="true" />
+                            <Label row="0" col="1" text="{{ peripheral.UUID }}" class="uuid-label" textWrap="true" />
+                        </GridLayout>
+                    </ListView.itemTemplate>
+                </ListView>
+            </GridLayout>
+        </StackLayout>
 
-    <StackLayout>
-        <GridLayout columns="*, *" rows="auto,auto,auto" horizontalAlignment="center" class="tab-content">
-            <Label row="0" col="0" text="Player Form" class="title" textWrap="true" />
-            <Button row="0" col="1" text="+" tap="{{ addPlayer }}" class="addbtn" />
-            <Button row="1" colSpan="2" text="Start" tap="{{ start }}" class="btn" />
-        </GridLayout>
-        <GridLayout columns="*, *, *" rows="auto" horizontalAlignment="center" class="tab-content">
-            <Label row="0" col="0" text="Timer:" class="title" textWrap="true"/>
-            <TextField hint="Timer" row="0" col="1" text='{{ data.timer }}' secure="false" keyboardType="number" returnKeyType="done" returnPress="onReturnPress" autocorrect="false" focus="onFocus" blur="onBlur" class="input input-border"/>
-            <Label row="0" col="2" text="Minutes" class="title" textWrap="true"/>
-        </GridLayout>
-        <ActivityIndicator busy="{{ isLoading }}" />
-        <GridLayout rows="*">
-            <ListView items="{{ players }}" itemTap="{{ deleteUser }}" separatorColor="#90c3d4">
-                <ListView.itemTemplate>
-                    <GridLayout columns="*, * , * " rows="auto, auto, auto, auto" class="padded-label-stack">
-                        <Image row="0" col="0" class="image" src="{{image}}" stretch="aspectFill" />
-                        <Label row="0" col="1" text="{{ name }}" class="title-label" textWrap="true" />
-                        <Label row="0" col="1" text="{{ peripheral.UUID }}" class="uuid-label" textWrap="true" />
-                    </GridLayout>
-                </ListView.itemTemplate>
-            </ListView>
-        </GridLayout>
-    </StackLayout>
+        <Image id="image" class="addbtn" tap="{{addPlayer}}" src="~/images/add_icon.png" stretch="aspectFill" />
+
+    </AbsoluteLayout>
 </Page>

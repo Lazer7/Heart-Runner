@@ -1,19 +1,23 @@
+.page {
+    background-color: #263143;
+}
+
+.menu {
+    width: 100%;
+    padding: 10% 10% 10% 10%;
+}
+.action-bar{
+    background-color: #FF0000;
+    color: #ffffff;
+}
 .addbtn {
-    background-color: #ff0000;
     border-radius: 5;
     color: white;
     font-size: 15;
-    margin: 5px 5px 5px 150px;
+    top: 550;
+    left: 300;
+    width: 20%;
 }
-
-.deletebtn {
-    background-color: #ff0000;
-    border-radius: 5;
-    color: white;
-    font-size: 15;
-    margin: 5px 50px 5px 50px;
-}
-
 .btn {
     background-color: #ff0000;
     border-radius: 5;
@@ -29,17 +33,21 @@
     vertical-align: middle;
     width: 100%;
 }
-
+.label{
+    color: #FFFFFF;
+}
 .uuid-label {
     margin-top: 50px;
+    color: #FFFFFF;
 }
 
 .image {
     height: 150px;
     width: 150px;
 }
-
-.page {
-    background: linear-gradient(to bottom, yellow, red);
-
+.style{
+    color:#FF0000;
+    background-color: white;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }

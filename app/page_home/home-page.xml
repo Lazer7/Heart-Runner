@@ -1,12 +1,7 @@
-<Page class="page"
-    navigatingTo="onNavigatingTo"  
-    xmlns="http://schemas.nativescript.org/tns.xsd">
+<Page class="page" navigatingTo="onNavigatingTo" 
+    xmlns="http://schemas.nativescript.org/tns.xsd" actionBarHidden="true">
 
-    <ActionBar class="action-bar">
-        <Label class="action-bar-title" text="Heart Runner 1.0.0"></Label>
-    </ActionBar>
-
-    <GridLayout>
+    <GridLayout class="menu">
         <Image src="~/images/icon.png" verticalAlignment="top" width="200" height="200" stretch="aspectFill" />
         <Label text="{{ title }}" textWrap="true" class="title" />
         <Button text="Connect" tap="{{ onConnect }}" class="btn" />
