@@ -10,7 +10,6 @@ var HomeViewModel = (function (_super) {
     function HomeViewModel() {
         _super.call(this);
         this.title = "Heart Runner";
-        HomeViewModel.prototype.checkBluetoothEnabled();
     }
     HomeViewModel.prototype.onConnect = function (args) {
         const button = args.object;

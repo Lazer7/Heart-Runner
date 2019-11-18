@@ -1,0 +1,56 @@
+.page {
+    background-color: #263143;
+}
+
+.menu {
+    margin-top: 10%;
+}
+
+.ComboHolder {
+    top: -150px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    font-size: 30px;
+}
+
+.LinearAxis {
+    label-text-color: red;
+    line-hidden: false;
+    label-size: 10;
+    line-thickness: 3;
+    line-color: red;
+}
+
+.CategoricalAxis {
+    label-text-color: rgba(0, 0, 0, 0);
+    line-hidden: false;
+    label-size: 0;
+    line-thickness: 3;
+    line-color: red;
+}
+
+#cartesianChart {
+    margin-top:100px;
+    width: 75%;
+    horizontal-align: left;
+}
+
+.title {
+    color: white;
+    font-size: 30px;
+}
+.subtitle {
+    color: white;
+    font-size: 20px;
+}
+#starContainer {
+    horizontal-align: right;
+}
+.btn {
+    background-color: #ff0000;
+    border-radius: 5;
+    color: white;
+    font-size: 15;
+    margin: 5px 5px 5px 5px;
+}

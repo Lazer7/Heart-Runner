@@ -41,7 +41,7 @@ var HeartrateViewModel = (function (_super) {
                 HeartrateViewModel.prototype.data.set("maxHeartRate", "Maximum Heart Rate: " + value);
                 HeartrateViewModel.prototype.data.set("easy", "Easy Work Out (Red): " + Number.parseFloat(value * 0.59).toPrecision(4));
                 HeartrateViewModel.prototype.data.set("medium", "Moderate Work Out (Yellow): " + Number.parseFloat(value * 0.69).toPrecision(4));
-                HeartrateViewModel.prototype.data.set("hard", "Intense Work Out (Green): " + Number.parseFloat(value * 0.89).toPrecision(4));
+                HeartrateViewModel.prototype.data.set("hard", "Intense Work Out (Green): " + Number.parseFloat(value * 0.79).toPrecision(4));
                 HeartrateViewModel.prototype.data.set("danger", "Out of Range (White): " + Number.parseFloat(value * 0.9).toPrecision(4));
             }
         });

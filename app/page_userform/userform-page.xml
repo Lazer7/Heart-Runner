@@ -13,7 +13,7 @@
             </GridLayout>
             
             <ActivityIndicator busy="{{ isLoading }}" />
-            <GridLayout rows="*">
+            <GridLayout rows="*" height="1000px">
                 <ListView items="{{ players }}" itemTap="{{ deleteUser }}" separatorColor="#90c3d4">
                     <ListView.itemTemplate>
                         <GridLayout columns="*, * , * " rows="auto, auto, auto, auto" class="padded-label-stack">

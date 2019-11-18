@@ -1,5 +1,5 @@
-.btn {
-    background-color: rgba(0,0,0,0);
+.start-btn {
+    background-color: rgba(0, 0, 0, 0);
     border-radius: 5;
     color: #FF0000;
     font-family: FontAwesome;
@@ -10,11 +10,20 @@
     visibility: visible;
 }
 
+.timer {
+    height: 200px;
+    width: 100px;
+    border-radius: 0 200px 200px 0;
+    background-color: rgba(255, 255, 0, 1);
+    left: 100;
+    top: 100;
+}
+
 .avatar {
     opacity: 0;
 }
 
-.minutes{
+.minutes {
     color: #FF0000;
     font-family: FontAwesome;
     font-size: 50;
@@ -22,13 +31,26 @@
     margin-left: 250px;
 }
 
-.seconds{
+.seconds {
     color: #FF0000;
     font-family: FontAwesome;
     font-size: 50;
     margin-top: 100px;
     margin-left: 450px;
 }
+
 .page {
-    background: linear-gradient(to bottom, white,skyblue);
+    background: linear-gradient(to bottom, white, skyblue);
+}
+
+.title {
+    color: #FF0000;
+    font-size: 18;
+    opacity: 0;
+}
+
+.star{
+    color: #FF0000;
+    font-size: 30;
+    opacity: 0;
 }

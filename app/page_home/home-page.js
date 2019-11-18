@@ -11,6 +11,7 @@ module.exports= {
         const page = args.object;
         orientationModule.setCurrentOrientation("portrait");
         page.bindingContext = vmModule.homeViewModel;
+        vmModule.homeViewModel.checkBluetoothEnabled();
     }
 }
 
