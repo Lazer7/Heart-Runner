@@ -1,11 +1,13 @@
 var observable = require("tns-core-modules/data/observable");
 const fileSystemModule = require("tns-core-modules/file-system");
+var dialogs = require("tns-core-modules/ui/dialogs");
+const httpModule = require("tns-core-modules/http");
 
 var SummaryViewModel = (function (_super) {
     __extends(SummaryViewModel, _super);
     SummaryViewModel.prototype.data = new observable.Observable();
     SummaryViewModel.prototype.players = [];
-
+    SummaryViewModel.prototype.ipAddress = "http://192.168.254.13"
     function SummaryViewModel(args) {
         _super.call(this);
         SummaryViewModel.prototype.players = args.object.navigationContext.playerList;
@@ -41,6 +43,23 @@ var SummaryViewModel = (function (_super) {
             SummaryViewModel.prototype.data.set("currentPlayer", currentData + 1);
         }
         SummaryViewModel.prototype.refresh(SummaryViewModel.prototype.data.get("currentPlayer"));
+    }
+    SummaryViewModel.prototype.postData = function(){
+        dialogs.prompt({
+            title: "Save Remotely",
+            message: "Enter in your computer's IP",
+            okButtonText: "Send",
+            cancelButtonText: "Cancel",
+            defaultText: SummaryViewModel.prototype.ipAddress
+        }).then(function (r) {
+            fetch(r.text,{
+                method: "POST",
+                body: JSON.stringify({data: SummaryViewModel.prototype.players})
+            }).then((r)=>{
+                console.log(r)
+            })
+           
+        });
     }
     SummaryViewModel.prototype.saveData = function () {
         const documents = fileSystemModule.knownFolders.documents();

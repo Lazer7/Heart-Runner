@@ -16,12 +16,13 @@
                 </chart:LineSeries>
             </chart:RadCartesianChart.series>
         </chart:RadCartesianChart>
-        <StackLayout row="auto,auto,auto,auto" id="starContainer">
+        <StackLayout row="auto,auto,auto,auto,auto,auto" id="starContainer">
             <Label row="1" text="Stars Earned" class="title"/>
             <Label row="2" text="{{data.red}}" class="subtitle"/>
             <Label row="3" text="{{data.yellow}}" class="subtitle"/>
             <Label row="4" text="{{data.green}}" class="subtitle"/>
-            <Button row="4" tap="{{toUserForm}}" text="Return" class="btn"/>
+            <Button row="5" tap="{{postData}}" text="Save" class="btn"/>
+            <Button row="6" tap="{{toUserForm}}" text="Return" class="btn"/>
         </StackLayout>
     </GridLayout>
 </Page>

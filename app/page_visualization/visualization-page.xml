@@ -1,56 +1,53 @@
 <Page class="page" navigatingTo="onNavigatingTo" 
-    xmlns="http://schemas.nativescript.org/tns.xsd" 
-    screenOrientation="landscape" 
-    actionBarHidden="true"
+    xmlns="http://schemas.nativescript.org/tns.xsd" screenOrientation="landscape" actionBarHidden="true" 
     xmlns:ui="nativescript-animated-circle">
     <GridLayout>
         <Image id="mountain" class="mountain" src="~/images/mountain.png"/>
         <Button id="start" text="Press here to start!" tap="{{ startVisualization }}" class="start-btn"/>
+        <Button id="stop" text="Stop!" tap="{{ stopVisualization }}" class="yeet-btn"/>
         <AbsoluteLayout columns="*, *, *, *" rows="auto, auto, auto, auto" horizontalAlignment="center" class="tab-content">
-            <ui:AnimatedCircle
-                backgroundColor="transparent"
-                width="125"
-                height="125"
-                animated="true"
-                animateFrom="0"
-                rimColor="#f7858d"
-                barColor="#803ca8"
-                clockwise="true"
-                rimWidth="175"
-                progress="{{data.progress}}"
-                textSize="10"
-                textColor="white"
-                text="{{data.timer}}"
-                left="25"
-                top="25" />
-            
-            <Label id="player1star1" left="110" top="0" text="⭐" class="star"/>
-            <Label id="player1star2" left="140" top="0" text="⭐" class="star"/>
-            <Label id="player1star3" left="170" top="0" text="⭐" class="star"/>
-            <Label id="player1Name" left="100" top="0" text="{{data.playerName1}}" class="title"/>
-            <Label id="player1HB" left="100" top="0" text="{{data.heartrate1}}" class="title"/>
-            <Image id="player1" left="100" top="0" class="avatar" src="~/images/lol.jpg" stretch="aspectFill" />
-            
-            <Label id="player2star1" left="235" top="0" text="⭐" class="star"/>
-            <Label id="player2star2" left="265" top="0" text="⭐" class="star"/>
-            <Label id="player2star3" left="295" top="0" text="⭐" class="star"/>
-            <Label id="player2Name" left="225" top="0" text="{{data.playerName2}}" class="title"/>
-            <Label id="player2HB" left="225" top="0" text="{{data.heartrate2}}" class="title"/>
-            <Image id="player2" left="225" top="0" class="avatar" src="~/images/lol.jpg" stretch="aspectFill" />
-            
-            <Label id="player3star1" left="360" top="0" text="⭐" class="star"/>
-            <Label id="player3star2" left="390" top="0" text="⭐" class="star"/>
-            <Label id="player3star3" left="420" top="0" text="⭐" class="star"/>
-            <Label id="player3Name" left="350" top="0" text="{{data.playerName3}}" class="title"/>
-            <Label id="player3HB" left="350" top="0" text="{{data.heartrate3}}" class="title"/>
-            <Image id="player3" left="350" top="0" class="avatar" src="~/images/lol.jpg" stretch="aspectFill" />
-            
-            <Label id="player4star1" left="485" top="0" text="⭐" class="star"/>
-            <Label id="player4star2" left="515" top="0" text="⭐" class="star"/>
-            <Label id="player4star3" left="545" top="0" text="⭐" class="star"/>
-            <Label id="player4Name" left="475" top="0" text="{{data.playerName4}}" class="title"/>
-            <Label id="player4HB" left="475" top="0" text="{{data.heartrate4}}" class="title"/>
-            <Image id="player4" left="475" top="0" class="avatar" src="~/images/lol.jpg" stretch="aspectFill" />
+            <ui:AnimatedCircle backgroundColor="transparent" width="125" height="125" animated="true" animateFrom="0" rimColor="#f7858d" barColor="#803ca8" clockwise="true" rimWidth="175" progress="{{data.progress}}" textSize="10" textColor="white" text="{{data.timer}}" left="25" top="25" />
+
+            <Label id="player1star1" left="160" top="0" text="★" class="star margin"/>
+            <Label id="player1star2" left="190" top="0" text="★" class="star margin"/>
+            <Label id="player1star3" left="220" top="0" text="★" class="star margin"/>
+            <Label id="player1back1" left="155" top="0" text="★" class="backstar margin"/>
+            <Label id="player1back2" left="185" top="0" text="★" class="backstar margin"/>
+            <Label id="player1back3" left="215" top="0" text="★" class="backstar margin"/>
+
+            <Label id="player1Name" left="150" top="0" text="{{data.playerName1}}" class="title"/>
+            <Label id="player1HB" left="150" top="0" text="{{data.heartrate1}}" class="title"/>
+            <Image id="player1" left="175" top="0" class="avatar" src="~/images/lol.jpg" stretch="aspectFill" />
+
+            <Label id="player2star1" left="285" top="0" text="★" class="star"/>
+            <Label id="player2star2" left="315" top="0" text="★" class="star"/>
+            <Label id="player2star3" left="345" top="0" text="★" class="star"/>
+            <Label id="player2back1" left="280" top="0" text="★" class="backstar margin"/>
+            <Label id="player2back2" left="310" top="0" text="★" class="backstar margin"/>
+            <Label id="player2back3" left="340" top="0" text="★" class="backstar margin"/>
+            <Label id="player2Name" left="275" top="0" text="{{data.playerName2}}" class="title"/>
+            <Label id="player2HB" left="275" top="0" text="{{data.heartrate2}}" class="title"/>
+            <Image id="player2" left="300" top="0" class="avatar" src="~/images/lol.jpg" stretch="aspectFill" />
+
+            <Label id="player3star1" left="410" top="0" text="★" class="star"/>
+            <Label id="player3star2" left="440" top="0" text="★" class="star"/>
+            <Label id="player3star3" left="470" top="0" text="★" class="star"/>
+            <Label id="player3back1" left="405" top="0" text="★" class="backstar margin"/>
+            <Label id="player3back2" left="435" top="0" text="★" class="backstar margin"/>
+            <Label id="player3back3" left="465" top="0" text="★" class="backstar margin"/>
+            <Label id="player3Name" left="400" top="0" text="{{data.playerName3}}" class="title"/>
+            <Label id="player3HB" left="400" top="0" text="{{data.heartrate3}}" class="title"/>
+            <Image id="player3" left="425" top="0" class="avatar" src="~/images/lol.jpg" stretch="aspectFill" />
+
+            <Label id="player4star1" left="535" top="0" text="★" class="star"/>
+            <Label id="player4star2" left="565" top="0" text="★" class="star"/>
+            <Label id="player4star3" left="595" top="0" text="★" class="star"/>
+            <Label id="player4back1" left="530" top="0" text="★" class="backstar margin"/>
+            <Label id="player4back2" left="560" top="0" text="★" class="backstar margin"/>
+            <Label id="player4back3" left="590" top="0" text="★" class="backstar margin"/>
+            <Label id="player4Name" left="525" top="0" text="{{data.playerName4}}" class="title"/>
+            <Label id="player4HB" left="525" top="0" text="{{data.heartrate4}}" class="title"/>
+            <Image id="player4" left="550" top="0" class="avatar" src="~/images/lol.jpg" stretch="aspectFill" />
         </AbsoluteLayout>
     </GridLayout>
 </Page>

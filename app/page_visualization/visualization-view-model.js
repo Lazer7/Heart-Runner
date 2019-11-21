@@ -41,7 +41,23 @@ var VisualizationViewModel = (function (_super) {
             VisualizationViewModel.prototype.data.set("heartrate" + (i + 1), "HR: --");
         }
     }
-
+    VisualizationViewModel.prototype.stopVisualization = function (args) {
+        const button = args.object;
+        const page = button.page;
+        timerModule.clearInterval(VisualizationViewModel.prototype.timer);
+        VisualizationViewModel.prototype.players.forEach((user) => {
+            bluetooth.disconnect({
+                UUID: user.peripheral.UUID
+            })
+        })
+        var navigationEntry = {
+            moduleName: "page_userform/userform-page",
+            context: {
+                playerList: VisualizationViewModel.prototype.players
+            }
+        }
+        page.frame.navigate(navigationEntry);
+    }
     VisualizationViewModel.prototype.startVisualization = function (args) {
         // Getting Frame Object
         var page = args.object.page;
@@ -53,21 +69,24 @@ var VisualizationViewModel = (function (_super) {
         page.addCss("#start {visibility: collapse;}")
         // Iterate through all registered players
         for (var i = 0; i < VisualizationViewModel.prototype.players.length; i++) {
-            page.addCss(`#player${i+1}{ top:${platformModule.screen.mainScreen.heightPixels - VisualizationViewModel.prototype.displacement -50}px; 
+            page.addCss(`#player${i+1}{ top:${platformModule.screen.mainScreen.heightPixels - (VisualizationViewModel.prototype.displacement/2) -50}px; 
                                         opacity:1; 
-                                        height:${VisualizationViewModel.prototype.displacement}px; 
-                                        width:${VisualizationViewModel.prototype.displacement}px;}`);
-            page.addCss(`#player${i+1}Name{ top:${platformModule.screen.mainScreen.heightPixels - VisualizationViewModel.prototype.displacement -150}px; 
+                                        height:${(VisualizationViewModel.prototype.displacement/2)}px; 
+                                        width:${(VisualizationViewModel.prototype.displacement/2)}px;}`);
+            page.addCss(`#player${i+1}Name{ top:${platformModule.screen.mainScreen.heightPixels - (VisualizationViewModel.prototype.displacement/2) -150}px; 
                                         opacity:1;}`);
-            page.addCss(`#player${i+1}HB{ top:${platformModule.screen.mainScreen.heightPixels - VisualizationViewModel.prototype.displacement -200}px; 
+            page.addCss(`#player${i+1}HB{ top:${platformModule.screen.mainScreen.heightPixels - (VisualizationViewModel.prototype.displacement/2) -200}px; 
                                         opacity:1;}`);
 
             page.addCss(`#player${i+1}star1{ top:${platformModule.screen.mainScreen.heightPixels - 175 }px; 
-                                        opacity:0; z-index:1;}`);
+                                        opacity:0; z-index:2;}`);
             page.addCss(`#player${i+1}star2{ top:${platformModule.screen.mainScreen.heightPixels - 175 }px; 
-                                        opacity:0; z-index:1;}`);
+                                        opacity:0; z-index:2;}`);
             page.addCss(`#player${i+1}star3{ top:${platformModule.screen.mainScreen.heightPixels - 175 }px; 
-                                        opacity:0; z-index:1;}`);
+                                        opacity:0; z-index:2;}`);
+            page.addCss(`#player${i+1}back1{ top:${platformModule.screen.mainScreen.heightPixels - 200 }px; opacity:0; color:black; z-index:1;}`);
+            page.addCss(`#player${i+1}back2{ top:${platformModule.screen.mainScreen.heightPixels - 200 }px; opacity:0; color:black; z-index:1;}`);
+            page.addCss(`#player${i+1}back3{ top:${platformModule.screen.mainScreen.heightPixels - 200 }px; opacity:0; color:black; z-index:1;}`);
         }
         // Begin to connect each device individually
         VisualizationViewModel.prototype.connectDevice(VisualizationViewModel.prototype.players.length - 1, page)
@@ -105,20 +124,20 @@ var VisualizationViewModel = (function (_super) {
             } else {
                 VisualizationViewModel.prototype.data.set("secondValue", (VisualizationViewModel.prototype.data.get("secondValue") - 1));
             }
-            VisualizationViewModel.prototype.data.set("totalSecondsPassed", VisualizationViewModel.prototype.data.get("totalSecondsPassed")+1);
+            VisualizationViewModel.prototype.data.set("totalSecondsPassed", VisualizationViewModel.prototype.data.get("totalSecondsPassed") + 1);
             if (VisualizationViewModel.prototype.data.get("minuteValue") !== -1) {
                 var minute = minute = VisualizationViewModel.prototype.data.get("minuteValue") + ":"
                 var zeroPlaceholderS = VisualizationViewModel.prototype.data.get("secondValue") < 10 ? "0" : "";
                 var seconds = zeroPlaceholderS + VisualizationViewModel.prototype.data.get("secondValue") + "";
                 var progress = (VisualizationViewModel.prototype.data.get("timeValue") - VisualizationViewModel.prototype.data.get("totalSecondsPassed")) / VisualizationViewModel.prototype.data.get("timeValue");
                 VisualizationViewModel.prototype.data.set("timer", minute + seconds);
-                VisualizationViewModel.prototype.data.set("progress", progress*100);
+                VisualizationViewModel.prototype.data.set("progress", progress * 100);
             }
         }, 1000);
     }
 
     VisualizationViewModel.prototype.connectDevice = function (i, page) {
-        const actualDisplacement = platformModule.screen.mainScreen.heightPixels - VisualizationViewModel.prototype.displacement;
+        const actualDisplacement = platformModule.screen.mainScreen.heightPixels - (VisualizationViewModel.prototype.displacement / 2);
         bluetooth.connect({
             UUID: VisualizationViewModel.prototype.players[i].peripheral.UUID,
             onConnected: function (peripheral) {
@@ -128,51 +147,58 @@ var VisualizationViewModel = (function (_super) {
                     characteristicUUID: '2a37',
                     onNotify: function (result) {
                         var view = new Int8Array(result.value);
-                        var heartDisplacement = (VisualizationViewModel.prototype.players[i].max - (VisualizationViewModel.prototype.players[i].max * .7))
+                        var heartDisplacement = (VisualizationViewModel.prototype.players[i].max - (VisualizationViewModel.prototype.players[i].max * .5))
                         var ratioDisplacement = actualDisplacement / heartDisplacement;
-                        VisualizationViewModel.prototype.data.set("heartrate" + (i + 1), "HR: " + view[1] + " bpm");
+                        var heartRateValue = Math.abs(view[1]);
+
+                        VisualizationViewModel.prototype.data.set("heartrate" + (i + 1), "HR: " + heartRateValue + " bpm");
                         VisualizationViewModel.prototype.players[i].heartRate.push({
                             time: new Date(),
-                            heartRate: view[1]
+                            heartRate: heartRateValue
                         })
-                        var red = Number.parseFloat((VisualizationViewModel.prototype.players[i].max) * 0.70).toPrecision(4);
-                        var yellow = Number.parseFloat((VisualizationViewModel.prototype.players[i].max) * 0.80).toPrecision(4);
-                        var green = Number.parseFloat((VisualizationViewModel.prototype.players[i].max) * 0.90).toPrecision(4);
-
+                        var red = Number.parseFloat((VisualizationViewModel.prototype.players[i].max) * 0.60).toPrecision(4);
+                        var yellow = Number.parseFloat((VisualizationViewModel.prototype.players[i].max) * 0.70).toPrecision(4);
+                        var green = Number.parseFloat((VisualizationViewModel.prototype.players[i].max) * 0.80).toPrecision(4);
                         // stars            
-                        if (view[1] < red) {
+                        if (heartRateValue < red) {
                             VisualizationViewModel.prototype.players[i].redStar++;
                             VisualizationViewModel.prototype.players[i].yellowStar = 0;
                             VisualizationViewModel.prototype.players[i].greenStar = 0;
+                            // change back to 30
                             if (VisualizationViewModel.prototype.players[i].redStar === 30) {
                                 VisualizationViewModel.prototype.players[i].redStar = 0;
                                 page.addCss(`#player${i+1}star${VisualizationViewModel.prototype.players[i].currentStar}{ opacity:1; color:red;}`);
+                                page.addCss(`#player${i+1}back${VisualizationViewModel.prototype.players[i].currentStar}{ opacity:1; color:black;}`);
                                 VisualizationViewModel.prototype.players[i].currentStar = VisualizationViewModel.prototype.players[i].currentStar + 1;
                                 VisualizationViewModel.prototype.players[i].stars.push({
                                     star: "Red",
                                     time: new Date()
                                 });
                             }
-                        } else if (view[1] < yellow) {
+                        } else if (heartRateValue < yellow) {
                             VisualizationViewModel.prototype.players[i].redStar = 0;
                             VisualizationViewModel.prototype.players[i].yellowStar++;
                             VisualizationViewModel.prototype.players[i].greenStar = 0;
+                            // change back to 20
                             if (VisualizationViewModel.prototype.players[i].yellowStar === 20) {
                                 VisualizationViewModel.prototype.players[i].yellowStar = 0;
                                 page.addCss(`#player${i+1}star${VisualizationViewModel.prototype.players[i].currentStar}{ opacity:1; color:yellow}`);
+                                page.addCss(`#player${i+1}back${VisualizationViewModel.prototype.players[i].currentStar}{ opacity:1; color:black;}`);
                                 VisualizationViewModel.prototype.players[i].currentStar = VisualizationViewModel.prototype.players[i].currentStar + 1;
                                 VisualizationViewModel.prototype.players[i].stars.push({
                                     star: "Yellow",
                                     time: new Date()
                                 });
                             }
-                        } else if (view[1] < green) {
+                        } else if (heartRateValue < green) {
                             VisualizationViewModel.prototype.players[i].redStar = 0;
                             VisualizationViewModel.prototype.players[i].yellowStar = 0;
                             VisualizationViewModel.prototype.players[i].greenStar++;
+                            // change back to 10
                             if (VisualizationViewModel.prototype.players[i].greenStar === 10) {
                                 VisualizationViewModel.prototype.players[i].greenStar = 0;
                                 page.addCss(`#player${i+1}star${VisualizationViewModel.prototype.players[i].currentStar}{ opacity:1; color:green}`);
+                                page.addCss(`#player${i+1}back${VisualizationViewModel.prototype.players[i].currentStar}{ opacity:1; color:black;}`);
                                 VisualizationViewModel.prototype.players[i].currentStar = VisualizationViewModel.prototype.players[i].currentStar + 1;
                                 VisualizationViewModel.prototype.players[i].stars.push({
                                     star: "Green",
@@ -184,15 +210,19 @@ var VisualizationViewModel = (function (_super) {
                         if (VisualizationViewModel.prototype.players[i].currentStar === 4) {
                             VisualizationViewModel.prototype.players[i].currentStar = 1;
                         }
-                        if (view[1] > (VisualizationViewModel.prototype.players[i].max * 0.7)) {
-                            page.addCss("#player" + (i + 1) + "{ top:" + ((ratioDisplacement * (VisualizationViewModel.prototype.players[i].max - view[1])) - 50) + "px;}");
-                            page.addCss(`#player${i+1}Name{ top:${((ratioDisplacement * (VisualizationViewModel.prototype.players [i].max - view[1])) - 150)}px;}`);
-                            page.addCss(`#player${i+1}HB{ top:${((ratioDisplacement * (VisualizationViewModel.prototype.players [i].max - view[1])) - 200)}px;}`)
-                            console.log("#player" + (i + 1) + " { top:" + ((ratioDisplacement * (VisualizationViewModel.prototype.players[i].max - view[1])) - 50) + "px;}" + " CURRENT HEART RATE: " + view[1]);
-                            console.log(`#player${i+1}Name{ top:${((ratioDisplacement * (VisualizationViewModel.prototype.players [i].max - view[1])) -150)}px;}`);
+                        if (heartRateValue > (VisualizationViewModel.prototype.players[i].max * 0.5)) {
+                            page.addCss("#player" + (i + 1) + "{ top:" + ((ratioDisplacement * (VisualizationViewModel.prototype.players[i].max - heartRateValue)) - 50) + "px;}");
+                            page.addCss(`#player${i+1}Name{ top:${((ratioDisplacement * (VisualizationViewModel.prototype.players [i].max - heartRateValue)) - 150)}px;}`);
+                            page.addCss(`#player${i+1}HB{ top:${((ratioDisplacement * (VisualizationViewModel.prototype.players [i].max - heartRateValue)) - 200)}px;}`)
+
+                            console.log("#player" + (i + 1) + " { top:" + ((ratioDisplacement * (VisualizationViewModel.prototype.players[i].max - heartRateValue)) - 50) + "px;}" + " CURRENT HEART RATE: " + heartRateValue);
+                            console.log(`#player${i+1}Name{ top:${((ratioDisplacement * (VisualizationViewModel.prototype.players [i].max - heartRateValue)) -150)}px;}`);
                         } else {
-                            console.log("Heart Displacement" + ((ratioDisplacement * (VisualizationViewModel.prototype.players[i].max - view[1])) - 50));
-                            console.log("Heart rate not high enough! Heart Rate: " + view[1]);
+                            page.addCss(`#player${i+1}{ top:${actualDisplacement -50}px;}`);
+                            page.addCss(`#player${i+1}Name{ top:${actualDisplacement -150}px;}`);
+                            page.addCss(`#player${i+1}HB{ top:${actualDisplacement -200}px; }`);
+                            console.log("Heart Displacement" + ((ratioDisplacement * (VisualizationViewModel.prototype.players[i].max - heartRateValue)) - 50));
+                            console.log("Heart rate not high enough! Heart Rate: " + heartRateValue);
                         }
                     }
                 });
