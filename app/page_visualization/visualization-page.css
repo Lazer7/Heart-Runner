@@ -10,15 +10,6 @@
     visibility: visible;
 }
 
-.timer {
-    height: 200px;
-    width: 100px;
-    border-radius: 0 200px 200px 0;
-    background-color: rgba(255, 255, 0, 1);
-    left: 100;
-    top: 100;
-}
-
 .avatar {
     opacity: 0;
 }

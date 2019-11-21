@@ -21,8 +21,9 @@ var VisualizationViewModel = (function (_super) {
         VisualizationViewModel.prototype.players = args.object.navigationContext.playerList;
         VisualizationViewModel.prototype.data.set("minuteValue", args.object.navigationContext.timer);
         VisualizationViewModel.prototype.data.set("secondValue", 0);
-        VisualizationViewModel.prototype.data.set("timer", args.object.navigationContext.timer + ":00");
-        VisualizationViewModel.prototype.data.set("timeValue", args.object.navigationContext.timer * 60);
+        VisualizationViewModel.prototype.data.set("timer", VisualizationViewModel.prototype.data.get("minuteValue") + ":00");
+        VisualizationViewModel.prototype.data.set("timeValue", VisualizationViewModel.prototype.data.get("minuteValue") * 60);
+        VisualizationViewModel.prototype.data.set("totalSecondsPassed", 0);
         VisualizationViewModel.prototype.data.set("progress", 0);
         VisualizationViewModel.prototype.players.forEach((element) => {
             element.heartRate = [];
@@ -104,16 +105,15 @@ var VisualizationViewModel = (function (_super) {
             } else {
                 VisualizationViewModel.prototype.data.set("secondValue", (VisualizationViewModel.prototype.data.get("secondValue") - 1));
             }
+            VisualizationViewModel.prototype.data.set("totalSecondsPassed", VisualizationViewModel.prototype.data.get("totalSecondsPassed")+1);
             if (VisualizationViewModel.prototype.data.get("minuteValue") !== -1) {
                 var minute = minute = VisualizationViewModel.prototype.data.get("minuteValue") + ":"
                 var zeroPlaceholderS = VisualizationViewModel.prototype.data.get("secondValue") < 10 ? "0" : "";
                 var seconds = zeroPlaceholderS + VisualizationViewModel.prototype.data.get("secondValue") + "";
-                var progress = VisualizationViewModel.prototype.data.get("secondValue") / VisualizationViewModel.prototype.data.get("timeValue")
+                var progress = (VisualizationViewModel.prototype.data.get("timeValue") - VisualizationViewModel.prototype.data.get("totalSecondsPassed")) / VisualizationViewModel.prototype.data.get("timeValue");
                 VisualizationViewModel.prototype.data.set("timer", minute + seconds);
-                VisualizationViewModel.prototype.data.set("progress", progress * 100);
+                VisualizationViewModel.prototype.data.set("progress", progress*100);
             }
-
-
         }, 1000);
     }
 
