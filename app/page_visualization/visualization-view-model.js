@@ -41,7 +41,7 @@ var VisualizationViewModel = (function (_super) {
             VisualizationViewModel.prototype.data.set("heartrate" + (i + 1), "HR: --");
         }
     }
-    VisualizationViewModel.prototype.stopVisualization = function (args) {
+    VisualizationViewModel.prototype.back = function (args) {
         const button = args.object;
         const page = button.page;
         timerModule.clearInterval(VisualizationViewModel.prototype.timer);
@@ -58,7 +58,29 @@ var VisualizationViewModel = (function (_super) {
         }
         page.frame.navigate(navigationEntry);
     }
-    VisualizationViewModel.prototype.startVisualization = function (args) {
+    VisualizationViewModel.prototype.stop = function(args){
+        const button = args.object;
+        const page = button.page;
+        timerModule.clearInterval(VisualizationViewModel.prototype.timer);
+        VisualizationViewModel.prototype.players.forEach((user) => {
+            bluetooth.disconnect({
+                UUID: user.peripheral.UUID
+            })
+        })
+        var navigationEntry = {
+            moduleName: "page_summary/summary-page",
+            context: {
+                playerList: VisualizationViewModel.prototype.players
+            }
+        }
+        page.frame.navigate(navigationEntry);
+    }
+    VisualizationViewModel.prototype.resync = function(args){
+        console.log("Resyncing!!!");
+        var page = args.object.page;
+        VisualizationViewModel.prototype.connectDevice(VisualizationViewModel.prototype.players.length - 1, page)
+    }
+    VisualizationViewModel.prototype.start = function (args) {
         // Getting Frame Object
         var page = args.object.page;
         // Setting the displacement to 1/4 of screen size
@@ -66,7 +88,7 @@ var VisualizationViewModel = (function (_super) {
         // Properly Scale the Mountain
         page.addCss("#mountain {height:" + platformModule.screen.mainScreen.heightPixels + "px; width:" + platformModule.screen.mainScreen.widthPixels + "px;}")
         // Hide Start Button Command
-        page.addCss("#start {visibility: collapse;}")
+        page.addCss(`#start {visibility: collapse;}`)
         // Iterate through all registered players
         for (var i = 0; i < VisualizationViewModel.prototype.players.length; i++) {
             page.addCss(`#player${i+1}{ top:${platformModule.screen.mainScreen.heightPixels - (VisualizationViewModel.prototype.displacement/2) -50}px; 
@@ -88,6 +110,10 @@ var VisualizationViewModel = (function (_super) {
             page.addCss(`#player${i+1}back2{ top:${platformModule.screen.mainScreen.heightPixels - 200 }px; opacity:0; color:black; z-index:1;}`);
             page.addCss(`#player${i+1}back3{ top:${platformModule.screen.mainScreen.heightPixels - 200 }px; opacity:0; color:black; z-index:1;}`);
         }
+
+        // Show "debugging" buttons
+        page.addCss(`#optionbutton {visibility: visible;}`);
+
         // Begin to connect each device individually
         VisualizationViewModel.prototype.connectDevice(VisualizationViewModel.prototype.players.length - 1, page)
         timerModule.clearInterval(VisualizationViewModel.prototype.timer);
@@ -135,7 +161,6 @@ var VisualizationViewModel = (function (_super) {
             }
         }, 1000);
     }
-
     VisualizationViewModel.prototype.connectDevice = function (i, page) {
         const actualDisplacement = platformModule.screen.mainScreen.heightPixels - (VisualizationViewModel.prototype.displacement / 2);
         bluetooth.connect({
@@ -215,14 +240,14 @@ var VisualizationViewModel = (function (_super) {
                             page.addCss(`#player${i+1}Name{ top:${((ratioDisplacement * (VisualizationViewModel.prototype.players [i].max - heartRateValue)) - 150)}px;}`);
                             page.addCss(`#player${i+1}HB{ top:${((ratioDisplacement * (VisualizationViewModel.prototype.players [i].max - heartRateValue)) - 200)}px;}`)
 
-                            console.log("#player" + (i + 1) + " { top:" + ((ratioDisplacement * (VisualizationViewModel.prototype.players[i].max - heartRateValue)) - 50) + "px;}" + " CURRENT HEART RATE: " + heartRateValue);
-                            console.log(`#player${i+1}Name{ top:${((ratioDisplacement * (VisualizationViewModel.prototype.players [i].max - heartRateValue)) -150)}px;}`);
+                            //console.log("#player" + (i + 1) + " { top:" + ((ratioDisplacement * (VisualizationViewModel.prototype.players[i].max - heartRateValue)) - 50) + "px;}" + " CURRENT HEART RATE: " + heartRateValue);
+                            //console.log(`#player${i+1}Name{ top:${((ratioDisplacement * (VisualizationViewModel.prototype.players [i].max - heartRateValue)) -150)}px;}`);
                         } else {
                             page.addCss(`#player${i+1}{ top:${actualDisplacement -50}px;}`);
                             page.addCss(`#player${i+1}Name{ top:${actualDisplacement -150}px;}`);
                             page.addCss(`#player${i+1}HB{ top:${actualDisplacement -200}px; }`);
-                            console.log("Heart Displacement" + ((ratioDisplacement * (VisualizationViewModel.prototype.players[i].max - heartRateValue)) - 50));
-                            console.log("Heart rate not high enough! Heart Rate: " + heartRateValue);
+                            //console.log("Heart Displacement" + ((ratioDisplacement * (VisualizationViewModel.prototype.players[i].max - heartRateValue)) - 50));
+                            //console.log("Heart rate not high enough! Heart Rate: " + heartRateValue);
                         }
                     }
                 });

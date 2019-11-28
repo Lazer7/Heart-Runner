@@ -15,9 +15,16 @@ var SummaryViewModel = (function (_super) {
         SummaryViewModel.prototype.refresh(0);
     }
     SummaryViewModel.prototype.refresh = function (value) {
+        var currentPlayer = SummaryViewModel.prototype.players[value]
+
         SummaryViewModel.prototype.data.set("currentPlayer", value);
-        SummaryViewModel.prototype.data.set("currentData", SummaryViewModel.prototype.players[SummaryViewModel.prototype.data.get("currentPlayer")].heartRate);
-        SummaryViewModel.prototype.data.set("currentPlayerLabel", "Current Player: " + SummaryViewModel.prototype.players[SummaryViewModel.prototype.data.get("currentPlayer")].name)
+        SummaryViewModel.prototype.data.set("currentData", currentPlayer.heartRate);
+        SummaryViewModel.prototype.data.set("currentPlayerLabel", "Current Player: " + currentPlayer.name)
+        var timeElapsed = Math.abs(new Date(currentPlayer.heartRate[0].time) - new Date(currentPlayer.heartRate[currentPlayer.heartRate.length-1].time));
+        var secondsElapsed = Math.floor((timeElapsed/1000) %60);
+        var minuteElapsed = Math.floor((timeElapsed/1000)/60)
+        SummaryViewModel.prototype.data.set("time","Elapsed Time: " + minuteElapsed + ":" + (secondsElapsed<10? "0"+secondsElapsed: secondsElapsed))
+        
         var red = 0,
             yellow = 0,
             green = 0;
@@ -64,7 +71,7 @@ var SummaryViewModel = (function (_super) {
     SummaryViewModel.prototype.saveData = function () {
         const documents = fileSystemModule.knownFolders.documents();
         const folder = documents.getFolder("Data");
-        var file = folder.getFile("sessionData.txt");
+        var file = folder.getFile("sessionData2.txt");
         file.writeText(JSON.stringify(SummaryViewModel.prototype.players))
             .then((result) => {
                 file.readText().then((res) => {

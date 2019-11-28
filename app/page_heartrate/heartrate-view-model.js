@@ -62,7 +62,7 @@ var HeartrateViewModel = (function (_super) {
                         // Convert data into raw integer values
                         var view = new Int8Array(result.value);
                         // Update the UI values
-                        HeartrateViewModel.prototype.heartrate.set("HeartRate", "Heart Rate: " + view[1]);
+                        HeartrateViewModel.prototype.heartrate.set("HeartRate", "Heart Rate: " + Math.abs(view[1]));
                         HeartrateViewModel.prototype.heartrate.set("Signal", "Signal: " + view[2]);
                         HeartrateViewModel.prototype.heartrate.set("Other", "Other: " + view[3]);
                     }

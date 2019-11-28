@@ -59,9 +59,12 @@
     color: white;
     font-family: FontAwesome;
     font-size: 12;
-    vertical-align: top;
-    horizontal-align:right;
     width: 200px;
     height: 100px;
-    visibility: visible;
+    margin-bottom: 2px;
+    visibility: hidden;
+}
+.options{
+    vertical-align: top;
+    horizontal-align: right;
 }

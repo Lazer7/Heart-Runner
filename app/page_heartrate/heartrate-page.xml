@@ -18,7 +18,6 @@
             <Label row="1" colSpan="2" text="{{data.easy}} " textWrap="true" class="label" />
             <Label row="2" colSpan="2" text="{{data.medium}} " textWrap="true" class="label" />
             <Label row="3" colSpan="2" text="{{data.hard}} " textWrap="true" class="label" />
-            <Label row="4" colSpan="2" text="{{data.danger}} " textWrap="true" class="label" />
         </StackLayout>
 
         <Button text="Take Avatar Picture" tap="{{ takePicture }}" class="btn" />

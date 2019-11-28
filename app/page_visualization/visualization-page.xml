@@ -3,8 +3,12 @@
     xmlns:ui="nativescript-animated-circle">
     <GridLayout>
         <Image id="mountain" class="mountain" src="~/images/mountain.png"/>
-        <Button id="start" text="Press here to start!" tap="{{ startVisualization }}" class="start-btn"/>
-        <Button id="stop" text="Stop!" tap="{{ stopVisualization }}" class="yeet-btn"/>
+        <Button id="start" text="Press here to start!" tap="{{ start }}" class="start-btn"/>
+        <StackLayout class="options">
+            <Button id="optionbutton" text="Back!" tap="{{ back }}" class="yeet-btn"/>
+            <Button id="optionbutton" text="Stop!" tap="{{ stop }}" class="yeet-btn"/>
+            <Button id="optionbutton" text="Resync!" tap="{{ resync }}" class="yeet-btn"/>
+        </StackLayout>
         <AbsoluteLayout columns="*, *, *, *" rows="auto, auto, auto, auto" horizontalAlignment="center" class="tab-content">
             <ui:AnimatedCircle backgroundColor="transparent" width="125" height="125" animated="true" animateFrom="0" rimColor="#f7858d" barColor="#803ca8" clockwise="true" rimWidth="175" progress="{{data.progress}}" textSize="10" textColor="white" text="{{data.timer}}" left="25" top="25" />
 
