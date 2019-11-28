@@ -3,15 +3,15 @@
     <ActionBar class="action-bar">
         <Label class="action-bar-title" text="Player Overview"></Label>
     </ActionBar>
-    <AbsoluteLayout>
-        <StackLayout class="menu">
+    <GridLayout row="*,auto">
+        <StackLayout class="menu" row="1">
             <GridLayout columns="*, *, *" rows="auto, auto" horizontalAlignment="center" class="tab-content">
                 <Label row="0" col="0" text="Timer:" class="title" textWrap="true"/>
                 <TextField row="0" col="1" hint="0" text='{{ data.timer }}' secure="false" keyboardType="number" returnKeyType="done" returnPress="onReturnPress" autocorrect="false" focus="onFocus" blur="onBlur" class="style"/>
                 <Label row="0" col="2" text="Minutes" class="title" textWrap="true"/>
                 <Button row="1" colSpan="3" text="Start" tap="{{ start }}" class="btn" />
             </GridLayout>
-            
+
             <ActivityIndicator busy="{{ isLoading }}" />
             <GridLayout rows="*" height="1000px">
                 <ListView items="{{ players }}" itemTap="{{ deleteUser }}" separatorColor="#90c3d4">
@@ -24,9 +24,12 @@
                     </ListView.itemTemplate>
                 </ListView>
             </GridLayout>
+            <StackLayout width="100%" visibility="visible" row="2">
+                <Image id="image" class="addbtn" tap="{{addPlayer}}" src="~/images/add_icon.png" stretch="aspectFill" />
+            </StackLayout>
         </StackLayout>
+       >
 
-        <Image id="image" class="addbtn" tap="{{addPlayer}}" src="~/images/add_icon.png" stretch="aspectFill" />
 
-    </AbsoluteLayout>
+    </GridLayout>
 </Page>

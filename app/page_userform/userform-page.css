@@ -6,18 +6,22 @@
     width: 100%;
     padding: 10% 10% 10% 10%;
 }
-.action-bar{
+
+.action-bar {
     background-color: #FF0000;
     color: #ffffff;
 }
+
 .addbtn {
     border-radius: 5;
     color: white;
     font-size: 15;
-    top: 450;
-    left: 275;
-    width: 20%;
+    height: 200px;
+    width: 200px;
+    vertical-align: bottom;
+    horizontal-align: right;
 }
+
 .btn {
     background-color: #ff0000;
     border-radius: 5;
@@ -33,20 +37,18 @@
     vertical-align: middle;
     width: 100%;
 }
-.label{
+
+.label {
     color: #FFFFFF;
 }
+
 .uuid-label {
     margin-top: 50px;
     color: #FFFFFF;
 }
 
-.image {
-    height: 150px;
-    width: 150px;
-}
-.style{
-    color:#FF0000;
+.style {
+    color: #FF0000;
     background-color: white;
     margin-top: 5px;
     margin-bottom: 5px;
