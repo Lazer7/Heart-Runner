@@ -1,3 +1,6 @@
+.page {
+    background: linear-gradient(to bottom, white, skyblue);
+}
 .start-btn {
     background-color: rgba(0, 0, 0, 0);
     border-radius: 5;
@@ -9,31 +12,9 @@
     height: 100%;
     visibility: visible;
 }
-
 .avatar {
     opacity: 0;
 }
-
-.minutes {
-    color: #FF0000;
-    font-family: FontAwesome;
-    font-size: 50;
-    margin-top: 100px;
-    margin-left: 250px;
-}
-
-.seconds {
-    color: #FF0000;
-    font-family: FontAwesome;
-    font-size: 50;
-    margin-top: 100px;
-    margin-left: 450px;
-}
-
-.page {
-    background: linear-gradient(to bottom, white, skyblue);
-}
-
 .title {
     color: #0000FF;
     font-size: 18;
@@ -47,21 +28,19 @@
     font-size: 30;
     opacity: 0;
 }
-
 .backstar{
     color: #000000;
     font-size: 42;
     opacity: 0;
 }
-.yeet-btn{
+.btn{
+    margin: 0px 0px 2px 0px;
     background-color: red;
-    border-radius: 5;
     color: white;
-    font-family: FontAwesome;
+    border-radius: 5;
     font-size: 12;
     width: 200px;
     height: 100px;
-    margin-bottom: 2px;
     visibility: hidden;
 }
 .options{
