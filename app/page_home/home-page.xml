@@ -1,11 +1,9 @@
 <Page class="page" navigatingTo="onNavigatingTo" 
     xmlns="http://schemas.nativescript.org/tns.xsd" actionBarHidden="true">
 
-    <StackLayout class="menu">
+    <GridLayout class="menu">
         <Image src="~/images/icon.png" verticalAlignment="top" width="200" height="200" stretch="aspectFill" />
-        <!-- <Label text="{{ title }}" textWrap="true" class="title" /> -->
+        <Label text="{{ title }}" textWrap="true" class="title" />
         <Button text="Connect" tap="{{ onConnect }}" class="btn" />
-        <Button text="Yeet2" tap="{{ createFile }}" class="btn"/>
-        <Button text="Yeet3" tap="{{ yeet }}" class="btn"/>
-    </StackLayout>
+    </GridLayout>
 </Page>
