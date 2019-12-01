@@ -8,10 +8,11 @@ var SummaryViewModel = (function (_super) {
     SummaryViewModel.prototype.data = new observable.Observable();
     SummaryViewModel.prototype.players = [];
     SummaryViewModel.prototype.ipAddress = "http://192.168.254.13"
+
     function SummaryViewModel(args) {
         _super.call(this);
         SummaryViewModel.prototype.players = args.object.navigationContext.playerList;
-        SummaryViewModel.prototype.saveData();
+        SummaryViewModel.prototype.createFile();
         SummaryViewModel.prototype.refresh(0);
     }
     SummaryViewModel.prototype.refresh = function (value) {
@@ -20,11 +21,11 @@ var SummaryViewModel = (function (_super) {
         SummaryViewModel.prototype.data.set("currentPlayer", value);
         SummaryViewModel.prototype.data.set("currentData", currentPlayer.heartRate);
         SummaryViewModel.prototype.data.set("currentPlayerLabel", "Current Player: " + currentPlayer.name)
-        var timeElapsed = Math.abs(new Date(currentPlayer.heartRate[0].time) - new Date(currentPlayer.heartRate[currentPlayer.heartRate.length-1].time));
-        var secondsElapsed = Math.floor((timeElapsed/1000) %60);
-        var minuteElapsed = Math.floor((timeElapsed/1000)/60)
-        SummaryViewModel.prototype.data.set("time","Elapsed Time: " + minuteElapsed + ":" + (secondsElapsed<10? "0"+secondsElapsed: secondsElapsed))
-        
+        var timeElapsed = Math.abs(new Date(currentPlayer.heartRate[0].time) - new Date(currentPlayer.heartRate[currentPlayer.heartRate.length - 1].time));
+        var secondsElapsed = Math.floor((timeElapsed / 1000) % 60);
+        var minuteElapsed = Math.floor((timeElapsed / 1000) / 60)
+        SummaryViewModel.prototype.data.set("time", "Elapsed Time: " + minuteElapsed + ":" + (secondsElapsed < 10 ? "0" + secondsElapsed : secondsElapsed))
+
         var red = 0,
             yellow = 0,
             green = 0;
@@ -51,7 +52,7 @@ var SummaryViewModel = (function (_super) {
         }
         SummaryViewModel.prototype.refresh(SummaryViewModel.prototype.data.get("currentPlayer"));
     }
-    SummaryViewModel.prototype.postData = function(){
+    SummaryViewModel.prototype.postData = function () {
         dialogs.prompt({
             title: "Save Remotely",
             message: "Enter in your computer's IP",
@@ -59,27 +60,9 @@ var SummaryViewModel = (function (_super) {
             cancelButtonText: "Cancel",
             defaultText: SummaryViewModel.prototype.ipAddress
         }).then(function (r) {
-            fetch(r.text,{
-                method: "POST",
-                body: JSON.stringify({data: SummaryViewModel.prototype.players})
-            }).then((r)=>{
-                console.log(r)
-            })
-           
+            var result = JSON.stringify(SummaryViewModel.prototype.players);
+            SummaryViewModel.prototype.sendValues(r.text, result, 0, 500);
         });
-    }
-    SummaryViewModel.prototype.saveData = function () {
-        const documents = fileSystemModule.knownFolders.documents();
-        const folder = documents.getFolder("Data");
-        var file = folder.getFile("sessionData2.txt");
-        file.writeText(JSON.stringify(SummaryViewModel.prototype.players))
-            .then((result) => {
-                file.readText().then((res) => {
-                    console.log(res)
-                })
-            }).catch((err) => {
-                console.log(err);
-            });
     }
     SummaryViewModel.prototype.toUserForm = function (args) {
         const button = args.object;
@@ -92,6 +75,43 @@ var SummaryViewModel = (function (_super) {
             }
         }
         page.frame.navigate(navigationEntry);
+    }
+
+    // Creating Files
+    SummaryViewModel.prototype.sendValues = function (ipaddress, result, startIndex, endIndex) {
+        console.log(result.substring(startIndex, endIndex));
+        fetch(ipaddress, {
+            method: "POST",
+            body: JSON.stringify({
+                data: result.substring(startIndex, endIndex)
+            })
+        }).then((r) => {
+            var nextIndex = (endIndex + 500) > result.length ? result.length : endIndex + 500;
+            if (endIndex !== result.length)
+                SummaryViewModel.prototype.sendValues(ipaddress, result, startIndex + 500, nextIndex)
+        });
+    }
+    SummaryViewModel.prototype.createFile = function () {
+        console.log("Files!")
+        // Find Heart Runner Local Folder Location
+        const documents = fileSystemModule.knownFolders.documents();
+        // Create/Find Folder
+        const folder = documents.getFolder("Session Data");
+        // Checking if file exist and create "unique" file
+        var fileLocation = fileSystemModule.path.join(folder.path, "session.txt");
+        var counter = 1;
+        while (fileSystemModule.File.exists(fileLocation)) {
+            fileLocation = fileSystemModule.path.join(folder.path, "session(" + counter + ").txt");
+            counter++;
+        }
+        // Create new file
+        var file = fileSystemModule.File.fromPath(fileLocation);
+        // Write Data
+        file.writeText(JSON.stringify(SummaryViewModel.prototype.players))
+            .then((result) => {
+            }).catch((err) => {
+                console.log(err);
+            });
     }
     return SummaryViewModel;
 })(observable.Observable);
