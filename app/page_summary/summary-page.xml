@@ -21,9 +21,8 @@
             <Label row="2" text="{{data.red}}" class="subtitle"/>
             <Label row="3" text="{{data.yellow}}" class="subtitle"/>
             <Label row="4" text="{{data.green}}" class="subtitle"/>
-            <Label row="5" text="{{data.time}}" class="subtitle"/>
-            <Button row="6" tap="{{postData}}" text="Save" class="btn"/>
-            <Button row="7" tap="{{toUserForm}}" text="Return" class="btn"/>
+            <Button row="5" tap="{{postData}}" text="Save" class="btn"/>
+            <Button row="6" tap="{{toUserForm}}" text="Return" class="btn"/>
             
         </StackLayout>
     </GridLayout>

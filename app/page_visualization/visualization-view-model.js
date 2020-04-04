@@ -183,7 +183,7 @@ var VisualizationViewModel = (function (_super) {
                     serviceUUID: '180d',
                     characteristicUUID: '2a37',
                     onNotify: function (result) {
-                        var view = new Int8Array(result.value);
+                        var view = new Uint8Array(result.value);
                         var heartDisplacement = (VisualizationViewModel.prototype.players[i].max - (VisualizationViewModel.prototype.players[i].max * .5))
                         var ratioDisplacement = actualDisplacement / heartDisplacement;
                         var heartRateValue = Math.abs(view[1]);
@@ -271,6 +271,7 @@ var VisualizationViewModel = (function (_super) {
             },
             onDisconnected: function (peripheral) {
                 console.log("Periperhal disconnected with UUID: " + peripheral.UUID);
+                VisualizationViewModel.prototype.data.set("heartrate" + (i + 1), "HR: --bpm");
             }
         });
         // Connect to the next device in the VisualizationViewModel.prototype.players 

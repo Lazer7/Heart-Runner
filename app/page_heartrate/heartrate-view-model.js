@@ -60,7 +60,7 @@ var HeartrateViewModel = (function (_super) {
                         // Byte 3: Signal Strength
                         // Byte 4: Other Data
                         // Convert data into raw integer values
-                        var view = new Int8Array(result.value);
+                        var view = new Uint8Array(result.value);
                         // Update the UI values
                         HeartrateViewModel.prototype.heartrate.set("HeartRate", "Heart Rate: " + Math.abs(view[1]));
                         HeartrateViewModel.prototype.heartrate.set("Signal", "Signal: " + view[2]);
@@ -94,7 +94,6 @@ var HeartrateViewModel = (function (_super) {
             }
         );
     }
-
     HeartrateViewModel.prototype.select = function (args) {
         var page = args.object.page;
         page.addCss(`#image1 {border-style: none; border-width: 0px;}`);
@@ -107,7 +106,6 @@ var HeartrateViewModel = (function (_super) {
             border-color: #FF0000;}`);
         HeartrateViewModel.prototype.selectedImage = args.object.value
     }
-
     HeartrateViewModel.prototype.visualization = function (args) {
         const button = args.object;
         const page = button.page;
@@ -163,7 +161,11 @@ var HeartrateViewModel = (function (_super) {
                 return HeartrateViewModel.prototype.data.get("imageUri");
         }
     }
-
+    HeartrateViewModel.prototype.translateHeartRateValue = function (arg) {
+        // 60 8,60,0,0
+        // 61 8,61,0,0
+        // 62
+    }
 
     return HeartrateViewModel;
 })(observable.Observable);

@@ -8,7 +8,7 @@ var SummaryViewModel = (function (_super) {
     SummaryViewModel.prototype.data = new observable.Observable();
     SummaryViewModel.prototype.players = [];
     SummaryViewModel.prototype.ipAddress = "http://192.168.254.13"
-
+    SummaryViewModel.prototype.packageLength = 1000;
     function SummaryViewModel(args) {
         _super.call(this);
         SummaryViewModel.prototype.players = args.object.navigationContext.playerList;
@@ -21,10 +21,6 @@ var SummaryViewModel = (function (_super) {
         SummaryViewModel.prototype.data.set("currentPlayer", value);
         SummaryViewModel.prototype.data.set("currentData", currentPlayer.heartRate);
         SummaryViewModel.prototype.data.set("currentPlayerLabel", "Current Player: " + currentPlayer.name)
-        var timeElapsed = Math.abs(new Date(currentPlayer.heartRate[0].time) - new Date(currentPlayer.heartRate[currentPlayer.heartRate.length - 1].time));
-        var secondsElapsed = Math.floor((timeElapsed / 1000) % 60);
-        var minuteElapsed = Math.floor((timeElapsed / 1000) / 60)
-        SummaryViewModel.prototype.data.set("time", "Elapsed Time: " + minuteElapsed + ":" + (secondsElapsed < 10 ? "0" + secondsElapsed : secondsElapsed))
 
         var red = 0,
             yellow = 0,
@@ -61,7 +57,7 @@ var SummaryViewModel = (function (_super) {
             defaultText: SummaryViewModel.prototype.ipAddress
         }).then(function (r) {
             var result = JSON.stringify(SummaryViewModel.prototype.players);
-            SummaryViewModel.prototype.sendValues(r.text, result, 0, 500);
+            SummaryViewModel.prototype.sendValues(r.text, result, 0, SummaryViewModel.prototype.packageLength);
         });
     }
     SummaryViewModel.prototype.toUserForm = function (args) {
@@ -86,9 +82,9 @@ var SummaryViewModel = (function (_super) {
                 data: result.substring(startIndex, endIndex)
             })
         }).then((r) => {
-            var nextIndex = (endIndex + 500) > result.length ? result.length : endIndex + 500;
+            var nextIndex = (endIndex + SummaryViewModel.prototype.packageLength) > result.length ? result.length : endIndex + SummaryViewModel.prototype.packageLength;
             if (endIndex !== result.length)
-                SummaryViewModel.prototype.sendValues(ipaddress, result, startIndex + 500, nextIndex)
+                SummaryViewModel.prototype.sendValues(ipaddress, result, startIndex + SummaryViewModel.prototype.packageLength, nextIndex)
         });
     }
     SummaryViewModel.prototype.createFile = function () {
